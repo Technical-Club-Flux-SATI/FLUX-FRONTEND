@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Calendar, MapPin, MessageCircle, Info,
     ChevronDown, ChevronUp, Trophy, Clock, HelpCircle, Phone,
     Download, ExternalLink, Bot, CableCar, Presentation, Lightbulb, Mail
 } from 'lucide-react';
+
+// Cyber Ronin Assets
+const CYBER_RONIN_BASE = 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260831_115955_2a9adb39-5e9b-4ced-96e2-6900eabe3de9.png&w=1920&q=85';
+const CYBER_RONIN_REVEAL = 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260831_123709_183f0065-efb2-4bb2-a849-13aaa5af2f3f.png&w=1920&q=85';
 
 
 // Assets
@@ -175,12 +179,55 @@ const Technovision = () => {
 
     const currentEvent = activeTab ? events[activeTab] : null;
 
-    return (
-        <div className="bg-slate-50 dark:bg-[#050505] min-h-screen text-slate-900 dark:text-white transition-colors duration-300 font-sans selection:bg-cyan-500/30">
+    useEffect(() => {
+        const updateSpotlight = (clientX, clientY) => {
+            const el = document.getElementById('techno26-reveal-bg');
+            if (!el) return;
+            const rect = el.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            const w = window.innerWidth;
+            const radius = w < 480 ? 140 : w < 768 ? 200 : 280;
+            const maskVal = `radial-gradient(circle ${radius}px at ${x}px ${y}px, #fff 0%, #fff 40%, rgba(255,255,255,0.75) 60%, rgba(255,255,255,0.4) 75%, rgba(255,255,255,0.12) 88%, transparent 100%)`;
+            el.style.webkitMaskImage = maskVal;
+            el.style.maskImage = maskVal;
+        };
 
-            {/* Background Grid */}
-            <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]" />
+        const handleMouseMove = (e) => updateSpotlight(e.clientX, e.clientY);
+        const handleTouchMove = (e) => {
+            if (e.touches && e.touches.length > 0) {
+                updateSpotlight(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('touchmove', handleTouchMove, { passive: true });
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('touchmove', handleTouchMove);
+        };
+    }, []);
+
+    return (
+        <div className="relative min-h-screen bg-[#070504] text-white transition-colors duration-300 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
+
+            {/* ───── CYBER RONIN INTERACTIVE BACKGROUND ───── */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
+                <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out scale-105 opacity-60 dark:opacity-40"
+                    style={{ backgroundImage: `url('${CYBER_RONIN_BASE}')` }}
+                />
+                <div
+                    id="techno26-reveal-bg"
+                    className="absolute inset-0 bg-cover bg-center opacity-90 pointer-events-none transition-opacity duration-300"
+                    style={{
+                        backgroundImage: `url('${CYBER_RONIN_REVEAL}')`,
+                        WebkitMaskImage: 'radial-gradient(circle 0px at -999px -999px, #fff, transparent)',
+                        maskImage: 'radial-gradient(circle 0px at -999px -999px, #fff, transparent)',
+                    }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#C45A18]/30 via-black/40 to-[#070504] pointer-events-none" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#06b6d408_1px,transparent_1px),linear-gradient(to_bottom,#06b6d408_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
             </div>
 
             <div className="relative z-10">
@@ -202,7 +249,7 @@ const Technovision = () => {
                             className="inline-flex items-center gap-2 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 px-4 py-2 rounded-full border border-cyan-500/20"
                         >
                             <Calendar size={16} />
-                            <span className="text-sm font-bold uppercase tracking-wider">19 - 20 Feb 2026</span>
+                            <span className="text-sm font-bold uppercase tracking-wider">2 - 3 November 2026</span>
                             <span className="mx-2 text-cyan-500/30">|</span>
                             <a
                                 href="https://maps.app.goo.gl/fTdZm1HhBHnK9JYEA"
@@ -211,7 +258,7 @@ const Technovision = () => {
                                 className="inline-flex items-center gap-1 hover:text-cyan-500 transition-colors"
                             >
                                 <MapPin size={16} />
-                                <span className="text-sm font-bold uppercase tracking-wider">SU Ground</span>
+                                <span className="text-sm font-bold uppercase tracking-wider">SATI College</span>
                             </a>
                         </motion.div>
 
