@@ -28,6 +28,12 @@ const Ideathon = React.lazy(() => import("./pages/Ideathon_26"));
 const LegacySite = React.lazy(() => import("./pages/LegacySite"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const Technovision = React.lazy(() => import("./pages/Technovision_26"));
+const TechnovisionCompetitions = React.lazy(() => import("./pages/technovision/TechnovisionCompetitions"));
+const CompetitionDetails = React.lazy(() => import("./pages/technovision/CompetitionDetails"));
+const TechnovisionRegister = React.lazy(() => import("./pages/technovision/TechnovisionRegister"));
+const TechnovisionConfirmation = React.lazy(() => import("./pages/technovision/TechnovisionConfirmation"));
+const TrackApplication = React.lazy(() => import("./pages/technovision/TrackApplication"));
+const TechnovisionAdmin = React.lazy(() => import("./pages/technovision/TechnovisionAdmin"));
 const FluxWave2_0 = React.lazy(() => import("./pages/FluxWave2_0"));
 const FluxRecruitment = React.lazy(() => import("./pages/Recruitment_26"));
 const FluxWavePublicAdmin = React.lazy(() => import("./pages/FluxWavePublicAdmin"));
@@ -125,11 +131,20 @@ export default function App() {
               <Route path="/learninghub" element={<FluxLearningHub />} />
               <Route path="/events/flux-hard-wired" element={<Ideathon />} />
               <Route path="/Old-Site" element={<LegacySite />} />
-              <Route path="/events/technovision-2026" element={<Technovision />} />
+              <Route path="/events/technovision-2026" element={<TechnovisionCompetitions />} />
+              <Route path="/events/technovision-2026/competitions" element={<Navigate to="/events/technovision-2026" replace />} />
+              <Route path="/events/technovision-2026/archive" element={<Technovision />} />
+              <Route path="/events/technovision-2026/register" element={<TechnovisionRegister />} />
+              <Route path="/events/technovision-2026/confirmation" element={<TechnovisionConfirmation />} />
+              <Route path="/events/technovision-2026/track" element={<TrackApplication />} />
+              <Route path="/events/technovision-2026/:slug" element={<CompetitionDetails />} />
               <Route path="/events/fluxwave-2.0" element={<FluxWave2_0 />} />
               
               {/* Temporary, key-gated event admin — remove after FluxWave 2.0 ends */}
               <Route path="/admin/events/fluxwave-2.0" element={<FluxWavePublicAdmin />} />
+
+              {/* Technovision 2026 Admin (key-gated) */}
+              <Route path="/admin/events/technovision-2026" element={<TechnovisionAdmin />} />
 
 
               <Route path="/events/recruitment-2026" element={<FluxRecruitment />} />
