@@ -103,7 +103,21 @@ export const upvoteFAQ = (id) => API.put(`/faq/${id}/upvote`);
 export const resolveFAQ = (id) => API.put(`/faq/${id}/resolve`);
 
 // --- TECHNOVISION NOV 2026 ENDPOINTS ---
-export const registerTechnovisionNov = (formData) => API.post('/technovision-nov/register', formData, { timeout: 20000 });
+// Retries on network failure / 5xx (cold start, brief DB hiccup). Safe: the backend returns
+// the existing pass when the same team submits again, so a retry never creates a duplicate.
+export const registerTechnovisionNov = async (formData) => {
+  const maxAttempts = 3;
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await API.post('/technovision-nov/register', formData, { timeout: 25000 });
+    } catch (err) {
+      const status = err.response?.status;
+      const retryable = !err.response || status >= 500;
+      if (!retryable || attempt >= maxAttempts) throw err;
+      await new Promise((resolve) => setTimeout(resolve, 1500 * attempt));
+    }
+  }
+};
 export const verifyTechnovisionAdminKey = (key) =>
   API.post('/technovision-nov/verify-key', {}, { headers: { 'x-technovision-key': key } });
 export const fetchTechnovisionRegistrations = (key) =>
