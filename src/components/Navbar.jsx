@@ -104,7 +104,6 @@ const Navbar = () => {
   const navLinks = [
     { name: 'About', path: '/about' },
     { name: 'Events', path: '/events' },
-    { name: 'Technovision', path: '/events/technovision-2026' },
     { name: 'Team', path: '/team' },
     { name: 'Projects', path: '/projects' },
     { name: 'Gallery', path: '/gallery' },
@@ -163,25 +162,22 @@ const Navbar = () => {
             {/* --- DESKTOP NAVIGATION (Restored Hover Animations) --- */}
             <div className="hidden xl:flex items-center space-x-1">
               {navLinks.map((link) => {
-                const isTechnovision = link.name === 'Technovision';
                 return (
                   <Link
                     key={link.name}
                     to={link.path}
                     className={`relative px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] transition-all group overflow-hidden ${
-                      isTechnovision
-                        ? 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 rounded-lg shadow-[0_0_12px_rgba(6,182,212,0.25)] hover:bg-cyan-500/20 hover:border-cyan-400'
-                        : location.pathname === link.path
+                      location.pathname === link.path
                         ? 'text-cyan-500'
                         : 'text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white'
                     }`}
                   >
                     {/* Sliding Text Effect */}
                     <span className="relative z-10 transition-transform duration-300 group-hover:-translate-y-full block">
-                      {isTechnovision ? '⚡ ' + link.name : link.name}
+                      {link.name}
                     </span>
                     <span className="absolute inset-0 z-10 flex items-center justify-center translate-y-full group-hover:translate-y-0 transition-transform duration-300 text-cyan-400">
-                      {isTechnovision ? '⚡ ' + link.name : link.name}
+                      {link.name}
                     </span>
                   </Link>
                 );
@@ -269,16 +265,6 @@ const Navbar = () => {
                 <button onClick={toggleTheme} className="p-2 rounded-full border border-cyan-500/20 hover:bg-cyan-500/10 transition-colors">
                   {isDark ? <Sun size={18} className="text-cyan-400" /> : <Moon size={18} className="text-cyan-600" />}
                 </button>
-
-                {/* Technovision Admin Shortcut */}
-                <Link
-                  to="/admin/events/technovision-2026"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-400 font-bold text-[10px] uppercase tracking-wider transition-all"
-                  title="Technovision Admin Dashboard"
-                >
-                  <ShieldCheck size={14} />
-                  <span>Admin</span>
-                </Link>
 
                 {userInfo ? (
                   <div className="relative" ref={dropdownRef}>
@@ -412,15 +398,6 @@ const Navbar = () => {
                 {isDark ? <Sun size={24} /> : <Moon size={24} />}
               </button>
 
-              {/* MOBILE TECHNOVISION ADMIN SHORTCUT */}
-              <Link
-                to="/admin/events/technovision-2026"
-                className="xl:hidden p-2 rounded-lg text-purple-500 hover:bg-purple-500/10 active:scale-95 transition-all mr-1"
-                title="Technovision Admin"
-              >
-                <ShieldCheck size={24} />
-              </Link>
-
               {/* MOBILE PROFILE MENU (Mobile Only - Beside Toggle) */}
               <div className="xl:hidden relative mr-1" ref={mobileProfileDropdownRef}>
                 {userInfo ? (
@@ -514,28 +491,15 @@ const Navbar = () => {
 
           {/* Mobile Navigation Grid */}
           <div className="grid grid-cols-2 gap-3 mb-6">
-            <Link
-              to="/admin/events/technovision-2026"
-              onClick={() => setIsOpen(false)}
-              className="col-span-2 flex items-center justify-center gap-2 h-14 bg-purple-500/10 border border-purple-500/30 rounded-2xl text-[12px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 active:bg-purple-500/20 transition-all"
-            >
-              <ShieldCheck size={18} />
-              <span>Technovision Admin Dashboard</span>
-            </Link>
             {navLinks.map((link) => {
-              const isTechnovision = link.name === 'Technovision';
               return (
                 <Link
                   key={link.name}
                   to={link.path}
                   onClick={() => setIsOpen(false)}
-                  className={`flex items-center justify-center h-16 rounded-2xl text-[11px] font-bold uppercase tracking-widest transition-all ${
-                    isTechnovision
-                      ? 'col-span-2 bg-gradient-to-r from-blue-600/20 to-cyan-500/20 border border-cyan-400/50 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.15)] active:scale-[0.98]'
-                      : 'bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 active:bg-cyan-500/10 active:text-cyan-500 text-slate-800 dark:text-white'
-                  }`}
+                  className="flex items-center justify-center h-16 rounded-2xl text-[11px] font-bold uppercase tracking-widest transition-all bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 active:bg-cyan-500/10 active:text-cyan-500 text-slate-800 dark:text-white"
                 >
-                  {isTechnovision ? '⚡ ' + link.name + ' 2026' : link.name}
+                  {link.name}
                 </Link>
               );
             })}

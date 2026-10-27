@@ -109,7 +109,7 @@ const StatusTimeline = ({ currentStatus, statusHistory }) => {
 
 /* ── Main Component ──────────────────────────────────────────────── */
 const TrackApplication = () => {
-  const [appId, setAppId] = useState('');
+  const [appId, setAppId] = useState(() => localStorage.getItem('technovision_tracking_id') || '');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [notFound, setNotFound] = useState(false);
@@ -312,4 +312,3 @@ const TrackApplication = () => {
 };
 
 export default TrackApplication;
-

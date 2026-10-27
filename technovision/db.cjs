@@ -147,7 +147,7 @@ const COMP_CODES = {
 
 const COMP_NAMES = {
   'model-presentation': 'Model Presentation',
-  'robo-obstacle-challenge': 'Bot Racing',
+  'robo-obstacle-challenge': 'Walking Bot (Strictly No Wheels)',
   'robo-rumble': 'Robo Rumble',
 };
 

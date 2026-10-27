@@ -29,6 +29,12 @@ const TechnovisionConfirmation = () => {
   const competition = compSlug ? getCompetitionBySlug(compSlug) : null;
   const [copied, setCopied] = useState(false);
 
+  useEffect(() => {
+    if (appId) {
+      localStorage.setItem('technovision_tracking_id', appId);
+    }
+  }, [appId]);
+
   const submissionDate = new Date().toLocaleDateString('en-IN', {
     day: 'numeric', month: 'long', year: 'numeric',
   });
@@ -127,7 +133,7 @@ const TechnovisionConfirmation = () => {
                   : 'bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 hover:bg-cyan-500/20'
               }`}
             >
-              {copied ? <><CheckCircle size={16} /> Copied!</> : <><Copy size={16} /> Copy Application ID</>}
+              {copied ? <><CheckCircle size={16} /> Saved!</> : <><Copy size={16} /> Copy & Save ID</>}
             </button>
           </motion.div>
 

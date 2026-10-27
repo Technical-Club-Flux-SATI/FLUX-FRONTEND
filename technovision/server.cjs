@@ -21,34 +21,13 @@ const loadEnv = () => {
           const key = trimmed.slice(0, eqIdx).trim();
           const val = trimmed.slice(eqIdx + 1).trim().replace(/^["']|["']$/g, '');
           process.env[key] = val;
-        }
       }
-    }
   }
 };
 loadEnv();
 
 const PORT = process.env.PORT || 5000;
 const ADMIN_KEY = process.env.TECHNOVISION_ADMIN_KEY || 'flux2026';
-const DB_FILE = path.join(__dirname, 'registrations.json');
-
-// Local file fallback ONLY if explicitly enabled for development offline mode
-const ALLOW_LOCAL_FALLBACK = process.env.ALLOW_LOCAL_FALLBACK === 'true';
-
-const readLocalDB = () => {
-  try {
-    if (!fs.existsSync(DB_FILE)) return [];
-    return JSON.parse(fs.readFileSync(DB_FILE, 'utf8')) || [];
-  } catch (err) {
-    return [];
-  }
-};
-
-const writeLocalDB = (data) => {
-  try {
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
-  } catch (e) {}
-};
 
 const sendJson = (res, statusCode, data) => {
   res.writeHead(statusCode, {
@@ -123,9 +102,9 @@ const server = http.createServer(async (req, res) => {
           venue: 'SATI College, Vidisha',
         },
         competitions: [
-          { id: 'model-presentation', title: 'Model Presentation', category: 'Hardware Innovation', teamSize: '1 – 4 Members' },
-          { id: 'robo-obstacle-challenge', title: 'Bot Racing', category: 'Autonomous & RC Robotics', teamSize: 'Solo or Dual' },
-          { id: 'robo-rumble', title: 'Robo Rumble', category: 'Combat Robotics', teamSize: '1 – 4 Members' },
+          { id: 'model-presentation', title: 'Model Presentation', category: 'Hardware & IoT', teamSize: '1 – 4 Members' },
+          { id: 'robo-obstacle-challenge', title: 'Walking Bot (Strictly No Wheels)', category: 'Locomotion Innovation', teamSize: '2 – 4 Members' },
+          { id: 'robo-rumble', title: 'Robo Rumble', category: 'Combat & Hurdle', teamSize: '2 – 4 Members' },
         ],
       });
     }
@@ -149,9 +128,8 @@ const server = http.createServer(async (req, res) => {
 
       const normEmail = email.trim().toLowerCase();
 
-      // 1A. Save to MongoDB Atlas if configured
-      if (mongoConfigured) {
-        try {
+      // MongoDB Atlas is the only supported registration store.
+      try {
           await connectDB();
 
           // Check for existing duplicate submission for this competition
@@ -210,77 +188,21 @@ const server = http.createServer(async (req, res) => {
           });
         } catch (dbErr) {
           console.error('[MongoDB Error]', dbErr);
+          console.error('[MongoDB Error]', dbErr.message);
 
           // Handle duplicate key error (E11000)
           if (dbErr.code === 11000) {
             return sendError(res, 409, `A registration already exists with this email for the selected competition.`);
           }
 
-          return sendError(res, 500, `Database error: ${dbErr.message || 'Failed to save registration in MongoDB Atlas'}`);
-        }
+        return sendError(res, 503, `MongoDB Atlas unavailable: ${dbErr.message || 'Failed to save registration'}`);
       }
-
-      // 1B. Fallback if MongoDB credentials are not configured yet
-      if (!ALLOW_LOCAL_FALLBACK) {
-        return sendError(
-          res,
-          503,
-          'Database not configured: MONGODB_URI is missing or contains placeholders in .env. Please configure your MongoDB Atlas connection string in .env.'
-        );
-      }
-
-      // Local Fallback (only if ALLOW_LOCAL_FALLBACK=true for offline testing)
-      const db = readLocalDB();
-      const existing = db.find(r => r.email.toLowerCase() === normEmail && r.competitionId === competitionId);
-      if (existing) {
-        return sendError(res, 409, `You have already registered for this competition with email: ${email}`, [existing.applicationId]);
-      }
-
-      let applicationId = generateApplicationId(competitionId);
-      while (db.some(r => r.applicationId === applicationId)) {
-        applicationId = generateApplicationId(competitionId);
-      }
-
-      const now = new Date().toISOString();
-      const newRecord = {
-        _id: 'reg_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
-        applicationId,
-        fullName: fullName.trim(),
-        enrollmentNo: enrollmentNo.trim().toUpperCase(),
-        email: normEmail,
-        mobile: mobile.trim(),
-        college: college ? college.trim() : '',
-        branch: branch ? branch.trim() : '',
-        academicYear: academicYear || '1st Year',
-        competitionId,
-        competitionName: COMP_NAMES[competitionId] || competitionId,
-        participationType: participationType || 'individual',
-        teamName: teamName ? teamName.trim() : '',
-        teamMembers: Array.isArray(teamMembers) ? teamMembers : [],
-        projectName: projectName.trim(),
-        projectDescription: projectDescription ? projectDescription.trim() : '',
-        status: 'Submitted',
-        statusHistory: [{ status: 'Submitted', timestamp: now, note: 'Application received' }],
-        createdAt: now,
-        updatedAt: now,
-      };
-
-      db.push(newRecord);
-      writeLocalDB(db);
-
-      return sendJson(res, 201, {
-        message: 'Registration successful (Local Fallback Mode)',
-        applicationId: newRecord.applicationId,
-        competitionName: newRecord.competitionName,
-      });
-    }
 
     // 2. TRACK: GET /api/technovision/track/:appId
     if (pathname.startsWith('/api/technovision/track/') && req.method === 'GET') {
       const appId = decodeURIComponent(pathname.replace('/api/technovision/track/', '')).trim().toUpperCase();
 
-      if (mongoConfigured) {
-        try {
+      try {
           await connectDB();
           const reg = await Registration.findOne({ applicationId: appId }).lean();
           if (!reg) return sendError(res, 404, 'Application not found with ID: ' + appId);
@@ -301,28 +223,10 @@ const server = http.createServer(async (req, res) => {
               note: h.note || '',
             })),
           });
-        } catch (dbErr) {
-          console.error('[MongoDB Track Error]', dbErr);
-          return sendError(res, 500, `Database error: ${dbErr.message}`);
-        }
+      } catch (dbErr) {
+        console.error('[MongoDB Track Error]', dbErr.message);
+        return sendError(res, 503, `MongoDB Atlas unavailable: ${dbErr.message}`);
       }
-
-      // Local fallback
-      const db = readLocalDB();
-      const reg = db.find(r => r.applicationId.toUpperCase() === appId);
-      if (!reg) return sendError(res, 404, 'Application not found');
-      return sendJson(res, 200, {
-        applicationId: reg.applicationId,
-        competitionName: reg.competitionName,
-        applicantName: reg.fullName,
-        enrollmentNo: reg.enrollmentNo || '',
-        teamName: reg.teamName,
-        projectName: reg.projectName,
-        status: reg.status,
-        submittedAt: reg.createdAt,
-        updatedAt: reg.updatedAt,
-        statusHistory: reg.statusHistory || [],
-      });
     }
 
     // 3. ADMIN VERIFY KEY: POST /api/technovision/admin/verify-key
@@ -342,8 +246,7 @@ const server = http.createServer(async (req, res) => {
       const keyHeader = req.headers['x-technovision-key'];
       if (keyHeader !== ADMIN_KEY) return sendError(res, 403, 'Unauthorized');
 
-      if (mongoConfigured) {
-        try {
+      try {
           await connectDB();
           const list = await Registration.find().sort({ createdAt: -1 }).lean();
           const normalized = list.map(r => ({
@@ -368,13 +271,10 @@ const server = http.createServer(async (req, res) => {
             updatedAt: r.updatedAt,
           }));
           return sendJson(res, 200, { registrations: normalized });
-        } catch (dbErr) {
-          return sendError(res, 500, `Database error: ${dbErr.message}`);
-        }
+      } catch (dbErr) {
+        console.error('[MongoDB Admin Error]', dbErr.message);
+        return sendError(res, 503, `MongoDB Atlas unavailable: ${dbErr.message}`);
       }
-
-      const db = readLocalDB();
-      return sendJson(res, 200, { registrations: db });
     }
 
     // 5. ADMIN GET STATS: GET /api/technovision/admin/stats
@@ -383,15 +283,12 @@ const server = http.createServer(async (req, res) => {
       if (keyHeader !== ADMIN_KEY) return sendError(res, 403, 'Unauthorized');
 
       let list = [];
-      if (mongoConfigured) {
-        try {
-          await connectDB();
-          list = await Registration.find({}, 'status competitionId').lean();
-        } catch (e) {
-          list = [];
-        }
-      } else {
-        list = readLocalDB();
+      try {
+        await connectDB();
+        list = await Registration.find({}, 'status competitionId').lean();
+      } catch (dbErr) {
+        console.error('[MongoDB Stats Error]', dbErr.message);
+        return sendError(res, 503, `MongoDB Atlas unavailable: ${dbErr.message}`);
       }
 
       const total = list.length;
@@ -423,8 +320,7 @@ const server = http.createServer(async (req, res) => {
 
       if (!status) return sendError(res, 400, 'Status is required');
 
-      if (mongoConfigured) {
-        try {
+      try {
           await connectDB();
           const query = id.startsWith('TV26-') ? { applicationId: id.toUpperCase() } : { _id: id };
           const update = {
@@ -442,23 +338,10 @@ const server = http.createServer(async (req, res) => {
               _id: updated._id.toString(),
             },
           });
-        } catch (dbErr) {
-          return sendError(res, 500, `Database error: ${dbErr.message}`);
-        }
+      } catch (dbErr) {
+        console.error('[MongoDB Admin Error]', dbErr.message);
+        return sendError(res, 503, `MongoDB Atlas unavailable: ${dbErr.message}`);
       }
-
-      const db = readLocalDB();
-      const reg = db.find(r => r._id === id || r.applicationId === id);
-      if (!reg) return sendError(res, 404, 'Registration not found');
-
-      const now = new Date().toISOString();
-      reg.status = status;
-      reg.updatedAt = now;
-      if (!reg.statusHistory) reg.statusHistory = [];
-      reg.statusHistory.push({ status, timestamp: now, note: note || '' });
-
-      writeLocalDB(db);
-      return sendJson(res, 200, { message: 'Status updated', registration: reg });
     }
 
     // 7. ADMIN DELETE: DELETE /api/technovision/admin/:id
@@ -468,38 +351,31 @@ const server = http.createServer(async (req, res) => {
 
       const id = pathname.replace('/api/technovision/admin/', '');
 
-      if (mongoConfigured) {
-        try {
+      try {
           await connectDB();
           const query = id.startsWith('TV26-') ? { applicationId: id.toUpperCase() } : { _id: id };
           const result = await Registration.findOneAndDelete(query);
           if (!result) return sendError(res, 404, 'Registration not found');
 
           return sendJson(res, 200, { message: 'Registration deleted from MongoDB Atlas' });
-        } catch (dbErr) {
-          return sendError(res, 500, `Database error: ${dbErr.message}`);
-        }
+      } catch (dbErr) {
+        console.error('[MongoDB Admin Error]', dbErr.message);
+        return sendError(res, 503, `MongoDB Atlas unavailable: ${dbErr.message}`);
       }
-
-      let db = readLocalDB();
-      const before = db.length;
-      db = db.filter(r => r._id !== id && r.applicationId !== id);
-      if (db.length === before) return sendError(res, 404, 'Registration not found');
-      writeLocalDB(db);
-      return sendJson(res, 200, { message: 'Registration deleted' });
     }
 
-    // 8. ADMIN CSV EXPORT: GET /api/technovision/admin/export
+    // 8. ADMIN EXCEL-COMPATIBLE EXPORT: GET /api/technovision/admin/export
     if (pathname === '/api/technovision/admin/export' && req.method === 'GET') {
       const keyHeader = req.headers['x-technovision-key'];
       if (keyHeader !== ADMIN_KEY) return sendError(res, 403, 'Unauthorized');
 
       let list = [];
-      if (mongoConfigured) {
+      try {
         await connectDB();
         list = await Registration.find().sort({ createdAt: -1 }).lean();
-      } else {
-        list = readLocalDB();
+      } catch (dbErr) {
+        console.error('[MongoDB Export Error]', dbErr.message);
+        return sendError(res, 503, `MongoDB Atlas unavailable: ${dbErr.message}`);
       }
 
       const headers = ['Application ID', 'Enrollment No', 'Full Name', 'Email', 'Mobile', 'College', 'Branch', 'Academic Year', 'Competition', 'Type', 'Team Name', 'Project Name', 'Status', 'Submitted At'];
@@ -548,7 +424,7 @@ server.listen(PORT, () => {
     console.log(`⚠️ Database: MongoDB Atlas is NOT configured yet.`);
     console.log(`   Add MONGODB_URI to .env`);
     console.log(`   Example: MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.abcde.mongodb.net/flux_db?retryWrites=true&w=majority`);
-    console.log(`   (Fallback mode: ${ALLOW_LOCAL_FALLBACK ? 'ACTIVE' : 'OFF - registrations will require MongoDB Atlas'})`);
+    console.log('   Local fallback storage is disabled; MongoDB Atlas is required.');
   }
   console.log('');
 });

@@ -33,7 +33,16 @@ const CompetitionTire = ({ comp, index, selected, isSpinning, rotation, onClick 
     style={{ '--competition-accent': tireAccents[index % tireAccents.length] }}
     aria-label={`Spin tire for ${comp.title}`}
     aria-pressed={selected}
-    onClick={onClick}
+    onPointerDown={(event) => {
+      if (event.pointerType === 'touch') event.preventDefault();
+      onClick();
+    }}
+    onKeyDown={(event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        onClick();
+      }
+    }}
   >
     <span className="competition-tire-halo" aria-hidden="true" />
     <svg
@@ -221,14 +230,55 @@ const TechnovisionCompetitions = () => {
     }, 1300);
   };
 
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    const enableSoundAfterGesture = (event) => {
+      if (event.target.closest('button, a, input, select, textarea')) return;
+      video.muted = false;
+      setIsMuted(false);
+      video.play().then(() => {
+        setIsPlaying(true);
+        window.removeEventListener('pointerdown', enableSoundAfterGesture);
+        window.removeEventListener('keydown', enableSoundAfterGesture);
+      }).catch(() => {
+        video.muted = true;
+        setIsMuted(true);
+      });
+    };
+
+    video.muted = false;
+    video.play().then(() => {
+      setIsPlaying(true);
+    }).catch(() => {
+      // Browsers may block autoplay with sound until the first user gesture.
+      video.muted = true;
+      setIsMuted(true);
+      window.addEventListener('pointerdown', enableSoundAfterGesture);
+      window.addEventListener('keydown', enableSoundAfterGesture);
+    });
+
+    return () => {
+      window.removeEventListener('pointerdown', enableSoundAfterGesture);
+      window.removeEventListener('keydown', enableSoundAfterGesture);
+    };
+  }, []);
 
   const toggleSound = () => {
     if (videoRef.current) {
       videoRef.current.muted = !videoRef.current.muted;
       setIsMuted(videoRef.current.muted);
+      if (!videoRef.current.muted) {
+        videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {
+          videoRef.current.muted = true;
+          setIsMuted(true);
+        });
+      }
     }
   };
 
@@ -405,6 +455,8 @@ const TechnovisionCompetitions = () => {
                 muted={isMuted}
                 playsInline
                 onClick={togglePlay}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
                 className="w-full h-full object-cover cursor-pointer"
               />
 
@@ -445,7 +497,7 @@ const TechnovisionCompetitions = () => {
                   ) : (
                     <>
                       <Volume2 size={16} className="text-cyan-400 animate-pulse" />
-                      <span className="hidden sm:inline">MUTED AUDIO</span>
+                      <span className="hidden sm:inline">MUTE AUDIO</span>
                     </>
                   )}
                 </button>
@@ -572,12 +624,12 @@ const TechnovisionCompetitions = () => {
             For Queries <span className="text-cyan-400">Contact</span>
           </h2>
           <div className="flex flex-col items-center gap-4">
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-2 max-w-4xl mx-auto px-4">
+            <div className="grid w-full max-w-6xl grid-cols-1 gap-3 px-4 mt-2 mx-auto sm:grid-cols-2 lg:grid-cols-4">
               {EVENT_META.contacts.map((c) => (
                 <a
                   key={c.phone}
                   href={`tel:+91${c.phone}`}
-                  className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-500/40 text-slate-200 hover:text-cyan-400 transition-all font-mono text-xs sm:text-sm shadow-sm hover:scale-105 backdrop-blur-md"
+                  className="flex items-center justify-center gap-2.5 whitespace-nowrap rounded-xl bg-white/5 px-3 py-2.5 text-xs font-mono text-slate-200 shadow-sm backdrop-blur-md transition-all hover:scale-105 hover:border-cyan-500/40 hover:text-cyan-400 sm:text-sm"
                 >
                   <Phone size={15} className="text-cyan-400 shrink-0" />
                   <span className="font-sans font-bold">{c.name}</span>

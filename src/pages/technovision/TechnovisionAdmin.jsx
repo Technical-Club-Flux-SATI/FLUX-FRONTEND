@@ -277,7 +277,7 @@ const TechnovisionAdmin = () => {
       a.download = `technovision_registrations_${new Date().toISOString().split('T')[0]}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
-      toast.success('CSV exported');
+      toast.success('Excel-compatible sheet exported');
     } catch {
       toast.error('Failed to export CSV');
     }
@@ -338,7 +338,7 @@ const TechnovisionAdmin = () => {
               <RefreshCw size={18} />
             </button>
             <button onClick={handleExport} className="flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white rounded-xl font-bold text-sm hover:bg-slate-700 transition-all border border-slate-700">
-              <Download size={16} /> Export CSV
+              <Download size={16} /> Export Excel
             </button>
           </div>
         </div>
@@ -511,4 +511,3 @@ const TechnovisionAdmin = () => {
 };
 
 export default TechnovisionAdmin;
-
