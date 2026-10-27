@@ -30,7 +30,11 @@ const galleryPhotos = Object.values(rawGalleryImages).map((m) => m.default || m)
 
 // PDFs
 import roboPdf from '../assets/events/technovision_nov2026/robo_rumble_rules.pdf';
-// Model Presentation and Walking Bot rulebooks will be added later (leave pdfLink null until then)
+import modelPdf from '../assets/events/technovision_nov2026/model_presentation_rulebook.pdf';
+import walkingBotPdf from '../assets/events/technovision_nov2026/walking_bot_rules.pdf';
+import wholeRulesPdf from '../assets/events/technovision_nov2026/whole_rules_book.pdf';
+
+const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc";
 
 // Registration Form Component
 import TechnovisionNovRegistration from '../components/TechnovisionNovRegistration';
@@ -197,7 +201,7 @@ const TechnovisionNov2026 = () => {
             badge: 'Open Innovation',
             icon: <Lightbulb size={26} />,
             color: 'amber',
-            pdfLink: null,
+            pdfLink: modelPdf,
             description: "Demonstrate a working hardware prototype, robotics system, or IoT solution to an expert jury.",
             highlight: "Working model required. Live Q&A and jury scoring.",
             rules: [
@@ -212,7 +216,7 @@ const TechnovisionNov2026 = () => {
             ],
             timeline: [
                 { time: "30 Oct 2026", event: "Registration Deadline" },
-                { time: "02 Nov 2026 (10:30 AM)", event: "Event Date & Time" },
+                { time: "02 Nov 2026 (10 AM - 5 PM)", event: "Event Date & Time" },
                 { time: "216 Classroom", event: "Location" }
             ]
         },
@@ -239,8 +243,8 @@ const TechnovisionNov2026 = () => {
             ],
             timeline: [
                 { time: "30 Oct 2026", event: "Registration Deadline" },
-                { time: "03 Nov 2026 (10:30 AM)", event: "Event Date & Time" },
-                { time: "SU Ground", event: "Location" }
+                { time: "03 Nov 2026 (10 AM - 2 PM)", event: "Event Date & Time" },
+                { time: "IT Garden", event: "Location" }
             ]
         },
         botRacing: {
@@ -251,7 +255,7 @@ const TechnovisionNov2026 = () => {
             badge: 'Strictly No Wheels',
             icon: <Bot size={26} />,
             color: 'purple',
-            pdfLink: null,
+            pdfLink: walkingBotPdf,
             description: "Obstacle sprint for custom robots built strictly without wheels, using legged linkages or crawlers.",
             highlight: "🛑 No wheels allowed. Legged linkages, inchworms & crawlers only.",
             notice: "All bots must be completed by 30 October. A screening round will be held on 31 October. Only 15 shortlisted teams will be selected for Walking Bot.",
@@ -268,8 +272,8 @@ const TechnovisionNov2026 = () => {
             ],
             timeline: [
                 { time: "30 Oct 2026", event: "Registration Deadline" },
-                { time: "02 Nov 2026 (10:30 AM)", event: "Event Date & Time" },
-                { time: "SU Ground", event: "Location" }
+                { time: "02 Nov 2026 (2:30 PM - 5 PM)", event: "Event Date & Time" },
+                { time: "IT Garden", event: "Location" }
             ]
         }
     };
@@ -493,7 +497,7 @@ ${window.location.href}`;
                             >
                                 <MapPin size={15} className="text-cyan-500" />
                                 <span className="text-xs sm:text-sm font-bold uppercase tracking-wider">
-                                    SU Ground, SATI Vidisha
+                                    IT Garden, SATI Vidisha
                                 </span>
                             </a>
                         </motion.div>
@@ -584,43 +588,29 @@ ${window.location.href}`;
                                 <Flame size={16} className="text-amber-300" /> Register Your Team Now
                             </button>
 
-                            <button
-                                onClick={handleShareWhatsApp}
+                            <a
+                                href={WHATSAPP_GROUP_URL}
+                                target="_blank"
+                                rel="noreferrer"
                                 className="flex items-center justify-center gap-1.5 sm:gap-2 bg-[#25D366] text-white px-3 sm:px-6 py-2.5 sm:py-4 rounded-xl font-bold hover:bg-[#20bd5a] transition-all shadow-md text-xs sm:text-sm min-h-[40px] sm:min-h-[48px]"
                             >
-                                <Share2 size={15} /> WhatsApp
-                            </button>
+                                <MessageCircle size={15} /> Join WhatsApp Group
+                            </a>
 
-                            <button
-                                onClick={handleCopyLink}
-                                className="flex items-center justify-center gap-1.5 sm:gap-2 bg-slate-800 text-slate-200 hover:text-white px-3 sm:px-5 py-2.5 sm:py-4 rounded-xl font-bold hover:bg-slate-700 transition-all border border-slate-700 text-xs sm:text-sm min-h-[40px] sm:min-h-[48px]"
+                            <a
+                                href={wholeRulesPdf}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center justify-center gap-1.5 sm:gap-2 bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-300 hover:text-black dark:hover:text-white px-2 sm:px-6 py-2.5 sm:py-4 rounded-xl font-bold leading-tight text-center transition-all border border-slate-200 dark:border-white/10 text-xs sm:text-sm min-h-[40px] sm:min-h-[48px]"
                             >
-                                {copiedLink ? <Check size={15} className="text-emerald-400" /> : <Copy size={15} />}
-                                {copiedLink ? "Copied!" : "Copy Link"}
-                            </button>
-
-                            {(() => {
-                                const heroClass = "col-span-2 sm:col-span-1 sm:w-auto flex items-center justify-center gap-2 bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-300 hover:text-black dark:hover:text-white px-4 sm:px-6 py-2.5 sm:py-4 rounded-xl font-bold transition-all border border-slate-200 dark:border-white/10 text-xs sm:text-sm min-h-[40px] sm:min-h-[48px]";
-                                return currentEvent.pdfLink ? (
-                                    <a href={currentEvent.pdfLink} target="_blank" rel="noreferrer" className={heroClass}>
-                                        <Download size={15} /> Rulebook (PDF)
-                                    </a>
-                                ) : (
-                                    <button
-                                        type="button"
-                                        onClick={() => toast(`${currentEvent.title} rulebook will be available soon.`)}
-                                        className={heroClass}
-                                    >
-                                        <Download size={15} /> Rulebook (PDF)
-                                    </button>
-                                );
-                            })()}
+                                <Download size={15} /> Complete Rulebook (PDF)
+                            </a>
                         </div>
                     </div>
                 </section>
 
                 {/* ================= KEY METRICS & CREDIBILITY BAR ================= */}
-                <section className="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-8">
+                <section className="hidden md:block max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-8">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 p-3.5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-lg backdrop-blur-md">
                         <div className="text-center p-2 sm:p-3">
                             <h3 className="text-2xl min-[360px]:text-3xl sm:text-5xl font-black text-cyan-600 dark:text-cyan-400 font-mono">Open</h3>
@@ -1201,7 +1191,7 @@ ${window.location.href}`;
                                 rel="noreferrer"
                                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-black font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-all shadow-md"
                             >
-                                <MapPin size={16} className="text-cyan-400 dark:text-cyan-600" /> Open SU Ground Directions on Google Maps
+                                <MapPin size={16} className="text-cyan-400 dark:text-cyan-600" /> Open IT Garden Directions on Google Maps
                             </a>
                         </div>
 

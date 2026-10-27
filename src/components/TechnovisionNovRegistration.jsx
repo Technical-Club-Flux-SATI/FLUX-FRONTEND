@@ -74,9 +74,9 @@ const YEARS = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
 
 // Date, time and venue shown on the pass for each event
 const EVENT_SCHEDULE = {
-  model: { date: "02 Nov 2026", time: "10:30 AM", venue: "216 Classroom" },
-  robo: { date: "03 Nov 2026", time: "10:30 AM", venue: "SU Ground" },
-  botRacing: { date: "02 Nov 2026", time: "10:30 AM", venue: "SU Ground" },
+  model: { date: "02 Nov 2026", time: "10 AM - 5 PM", venue: "216 Classroom" },
+  robo: { date: "03 Nov 2026", time: "10 AM - 2 PM", venue: "IT Garden" },
+  botRacing: { date: "02 Nov 2026", time: "2:30 PM - 5 PM", venue: "IT Garden" },
 };
 const getSchedule = (eventId) => EVENT_SCHEDULE[eventId] || EVENT_SCHEDULE.model;
 
@@ -719,14 +719,20 @@ Please find the registration pass (PDF) attached.`;
                 </button>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-2 space-y-2 p-4 rounded-2xl border-2 border-emerald-500/60 bg-emerald-500/10">
+                <p className="text-sm font-bold text-emerald-300">
+                  Important: join the official Technovision WhatsApp group
+                </p>
+                <p className="text-xs text-slate-300">
+                  All updates, schedule changes and announcements are shared only in the Flux Club group. Every registered participant must join.
+                </p>
                 <a
-                  href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc?mode=gi_t"
+                  href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 hover:text-cyan-300 underline underline-offset-4"
+                  className="flex items-center justify-center gap-2 bg-[#25D366] text-white px-5 py-3.5 rounded-xl font-bold hover:bg-[#20bd5a] transition-all shadow-lg shadow-green-500/20 text-sm"
                 >
-                  <MessageCircle size={14} /> Join Official Technovision WhatsApp Community →
+                  <MessageCircle size={16} /> Join Technovision WhatsApp Group
                 </a>
               </div>
 
