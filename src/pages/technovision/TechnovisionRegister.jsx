@@ -109,6 +109,7 @@ const TechnovisionRegister = () => {
     if (competition) {
       if (competition.participationType === 'team') setParticipationType('team');
       else setParticipationType('individual');
+      setTeamMembers(prev => prev.slice(0, Math.max(1, competition.maxTeamSize - 1)));
     }
   }, [selectedComp]);
 
@@ -132,6 +133,13 @@ const TechnovisionRegister = () => {
     if (!projectName.trim()) e.projectName = 'Project / Robot / Model name is required';
     if (participationType === 'team') {
       if (!teamName.trim()) e.teamName = 'Team name is required';
+      const minRequiredExtra = competition ? Math.max(0, competition.minTeamSize - 1) : 1;
+      if (teamMembers.filter(m => m.name.trim()).length < minRequiredExtra) {
+        e.teamMembers = `At least ${competition?.minTeamSize || 2} members are required (including team leader)`;
+      }
+      if (competition && teamMembers.length > competition.maxTeamSize - 1) {
+        e.teamMembers = `A maximum of ${competition.maxTeamSize} members are allowed (including team leader)`;
+      }
       const invalidMembers = teamMembers.some(m => !m.name.trim());
       if (invalidMembers) e.teamMembers = 'Please fill in all team member names';
     }
@@ -358,14 +366,16 @@ const TechnovisionRegister = () => {
                             <Bot size={20} />
                           </div>
                           <div>
-                            <p className="font-bold text-sm">{competition.title}</p>
+                            <p className="font-bold text-sm">
+                              {competition.title} {competition.subtitle && <span className="text-pink-500 font-bold text-xs ml-1">{competition.subtitle}</span>}
+                            </p>
                             <p className="text-xs text-cyan-600 dark:text-cyan-400 font-mono">{competition.categoryBadge}</p>
                           </div>
                         </div>
                       ) : (
                         <select value={selectedComp} onChange={e => setSelectedComp(e.target.value)} className={inputCls(errors.selectedComp)}>
                           <option value="">Select a competition</option>
-                          {COMPETITIONS.map(c => <option key={c.id} value={c.slug}>{c.title}</option>)}
+                          {COMPETITIONS.map(c => <option key={c.id} value={c.slug}>{c.title} {c.subtitle || ''}</option>)}
                         </select>
                       )}
                     </Field>
@@ -554,4 +564,3 @@ const TechnovisionRegister = () => {
 };
 
 export default TechnovisionRegister;
-

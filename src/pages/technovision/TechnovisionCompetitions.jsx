@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { COMPETITIONS, EVENT_META } from '../../data/technovisionData';
 import './TechnovisionCompetitions.css';
+import technovisionPoster from '../../assets/events/technovision_2026/technovision_2026_poster.png';
 
 // Cyber Ronin Artwork Assets
 const CYBER_RONIN_BASE = 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260831_115955_2a9adb39-5e9b-4ced-96e2-6900eabe3de9.png&w=1920&q=85';
@@ -141,6 +142,11 @@ const CompetitionCard = ({ comp, index, active, onCardClick }) => {
         </span>
 
         <h3>{comp.title}</h3>
+        {comp.subtitle && (
+          <span className="text-pink-500 font-black text-xs uppercase tracking-wider block -mt-1 mb-1">
+            {comp.subtitle}
+          </span>
+        )}
 
         <p>{comp.shortDescription}</p>
 
@@ -551,27 +557,111 @@ const TechnovisionCompetitions = () => {
           </div>
         </section>
 
-        {/* ───── CONTACT ───── */}
+        {/* ───── CONTACT / QUERIES ───── */}
         <div className="text-center pb-12 border-t border-white/10 pt-10">
-          <h2 className="text-2xl font-bold mb-6 text-white drop-shadow">Need Help?</h2>
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-cyan-400 mb-2">Need Help?</p>
+          <h2 className="text-2xl md:text-3xl font-black italic uppercase tracking-wider mb-6 text-white drop-shadow">
+            For Queries <span className="text-cyan-400">Contact</span>
+          </h2>
           <div className="flex flex-col items-center gap-4">
-            <a href="/contact" className="text-[#FBDBAF] font-medium text-lg hover:text-cyan-400 transition-colors">Contact Us</a>
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              <a href={`mailto:${EVENT_META.email}`} className="flex items-center gap-2 text-slate-300 hover:text-cyan-400 transition-colors">
-                <Mail size={18} />
-                <span>{EVENT_META.email}</span>
-              </a>
-            </div>
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-2">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-2 max-w-4xl mx-auto px-4">
               {EVENT_META.contacts.map((c) => (
-                <a key={c.phone} href={`tel:+91${c.phone}`} className="flex items-center gap-2 text-slate-300 hover:text-cyan-400 transition-colors">
-                  <Phone size={18} />
-                  <span>{c.name} - {c.phone}</span>
+                <a
+                  key={c.phone}
+                  href={`tel:+91${c.phone}`}
+                  className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-500/40 text-slate-200 hover:text-cyan-400 transition-all font-mono text-xs sm:text-sm shadow-sm hover:scale-105 backdrop-blur-md"
+                >
+                  <Phone size={15} className="text-cyan-400 shrink-0" />
+                  <span className="font-sans font-bold">{c.name}</span>
+                  <span className="text-slate-400 font-mono">({c.displayPhone || c.phone})</span>
                 </a>
               ))}
             </div>
+            <div className="flex items-center gap-4 mt-4">
+              <a href={`mailto:${EVENT_META.email}`} className="flex items-center gap-2 text-slate-300 hover:text-cyan-400 transition-colors font-mono text-xs sm:text-sm">
+                <Mail size={16} className="text-cyan-400" />
+                <span>{EVENT_META.email}</span>
+              </a>
+              <span className="text-slate-600">•</span>
+              <a href="/contact" className="text-[#FBDBAF] font-medium text-xs sm:text-sm hover:text-cyan-400 transition-colors">Contact Flux</a>
+            </div>
           </div>
         </div>
+
+        {/* ───── EVENT INFORMATION ───── */}
+        <section className="max-w-6xl mx-auto px-6 pb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(240px,360px)_1fr] gap-10 items-center rounded-3xl border border-cyan-500/20 bg-black/40 p-6 md:p-10 shadow-[0_0_45px_rgba(6,182,212,0.12)]">
+            <motion.div
+              initial={{ opacity: 0, x: -25 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="mx-auto w-full max-w-sm overflow-hidden rounded-2xl border border-cyan-400/30 shadow-[0_0_30px_rgba(6,182,212,0.2)]"
+            >
+              <img
+                src={technovisionPoster}
+                alt="Technovision 2026 event poster"
+                loading="lazy"
+                className="block h-auto w-full"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 25 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-7"
+            >
+              <div>
+                <p className="mb-2 font-mono text-xs font-bold uppercase tracking-[0.2em] text-cyan-400">
+                  Technical Fest 2026 • Samrat Ashok Tech. Institute
+                </p>
+                <h2 className="text-3xl font-black italic uppercase tracking-tight text-white md:text-5xl">
+                  Clash of Metal <span className="text-cyan-400">&amp; Innovation</span>
+                </h2>
+              </div>
+
+              <p className="leading-relaxed text-slate-300">
+                Technovision returns this November with three premier high-adrenaline competitions:
+                <strong className="text-[#FBDBAF]"> Model Presentation</strong>,
+                <strong className="text-[#FBDBAF]"> Robo Rumble Arena</strong>, and the all-new
+                <strong className="text-[#FBDBAF]"> Walking Bot without Wheels</strong> challenge.
+                Open to students across all engineering branches, years, and outside institutions to
+                prototype, battle, and win glory.
+              </p>
+
+              <div className="grid gap-5 sm:grid-cols-3">
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                  <h3 className="mb-2 text-sm font-black uppercase tracking-wider text-cyan-400">
+                    Universal Eligibility
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-300">
+                    Open to 1st, 2nd, 3rd, and 4th-year students across all engineering, diploma,
+                    and science branches.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                  <h3 className="mb-2 text-sm font-black uppercase tracking-wider text-cyan-400">
+                    Free for Everyone
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-300">
+                    Registration is completely free for all participants, SATI and external colleges
+                    alike. No hidden fees.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                  <h3 className="mb-2 text-sm font-black uppercase tracking-wider text-cyan-400">
+                    Direct Certificates &amp; Recognitions
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-300">
+                    Every participant receives an official signed certificate from SATI Vidisha and
+                    Club FLUX.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
       </div>
     </div>
   );

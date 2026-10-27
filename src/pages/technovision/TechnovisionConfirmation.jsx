@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { CheckCircle, Copy, Search, ArrowLeft, Calendar, Bot, Sparkles } from 'lucide-react';
-import { getCompetitionBySlug } from '../../data/technovisionData';
+import { AlertTriangle, CheckCircle, Copy, Search, ArrowLeft, Calendar, Bot, Sparkles, MessageCircle } from 'lucide-react';
+import { getCompetitionBySlug, EVENT_META } from '../../data/technovisionData';
 
 /* ── Floating particle ───────────────────────────────────────────── */
 const Particle = ({ delay }) => {
@@ -164,10 +164,22 @@ const TechnovisionConfirmation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.65 }}
-            className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 text-sm text-amber-700 dark:text-amber-300 text-left"
+            className="bg-amber-100 dark:bg-amber-500/10 border-2 border-amber-500 rounded-2xl p-6 text-left text-amber-900 dark:text-amber-200 shadow-[0_0_24px_rgba(245,158,11,0.2)]"
           >
-            <strong>Important:</strong> Save your Application ID — you'll need it to track your registration status. 
-            {' '}If email delivery is configured by the organizers, you may also receive a confirmation email.
+            <div className="flex items-start gap-4">
+              <AlertTriangle size={25} className="mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" />
+              <div className="space-y-3">
+                <p className="font-mono text-xs font-black uppercase tracking-[0.18em] text-red-600 dark:text-red-400">
+                  Important Notice
+                </p>
+                <p className="font-bold leading-relaxed">
+                  All participants are required to register on the NDLI portal after completing their event registration.
+                </p>
+                <p className="font-bold leading-relaxed">
+                  NDLI portal registration is compulsory to receive your participation certificates.
+                </p>
+              </div>
+            </div>
           </motion.div>
 
           {/* Action Buttons */}
@@ -177,6 +189,14 @@ const TechnovisionConfirmation = () => {
             transition={{ delay: 0.75 }}
             className="flex flex-wrap justify-center gap-4"
           >
+            <a
+              href={EVENT_META.whatsappGroup}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-[#25D366] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#20bd5a] transition-all uppercase tracking-wider shadow-lg shadow-green-500/20"
+            >
+              <MessageCircle size={18} /> Join WhatsApp Group
+            </a>
             <Link
               to="/events/technovision-2026/track"
               className="flex items-center gap-2 bg-cyan-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-cyan-500 transition-all uppercase tracking-wider shadow-lg shadow-cyan-500/20"
@@ -197,4 +217,3 @@ const TechnovisionConfirmation = () => {
 };
 
 export default TechnovisionConfirmation;
-
