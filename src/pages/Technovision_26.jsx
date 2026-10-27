@@ -142,7 +142,7 @@ const Technovision = () => {
                 "Participation Certificates for all"
             ],
             // pdfLink: '/events/technovision_2026/ropeway_racing_rules.pdf',
-            pdfLink: 'https://drive.google.com/file/d/1r22pR1QgCU6f3B6aAXQnikHjjpfpGrlK/view?usp=drive_link',
+            pdfLink: '/events/technovision_2026/robo_walk_rules.pdf',
             timeline: [
                 { time: "Registration Deadline", event: "18 Feb 2026" },
                 { time: "Round-Robin Matches", event: "19 Feb 2026" },
@@ -166,7 +166,7 @@ const Technovision = () => {
                 "Participation Certificates for all"
             ],
             // pdfLink: '/events/technovision_2026/robo_rumble_rules.pdf',
-            pdfLink: 'https://drive.google.com/file/d/1Kw831e0SAWjpQ04rpf5QvmC4bO63SlIF/view?usp=drive_link',
+            pdfLink: '/events/technovision_2026/robo_rumble_rules.pdf',
             timeline: [
                 { time: "Registration Deadline", event: "18 Feb 2026" },
                 { time: "Event Day", event: "20 Feb 2026" },
@@ -424,7 +424,7 @@ const Technovision = () => {
                                     <ExternalLink size={20} /> Google Form Registration
                                 </a> */}
                                 <a
-                                    href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc?mode=gi_t"
+                                    href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="flex items-center gap-2 bg-[#25D366] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#20bd5a] transition-colors shadow-lg shadow-green-500/20"
@@ -435,8 +435,7 @@ const Technovision = () => {
 
 
                                 <a
-                                    href="https://drive.google.com/file/d/1Ee689teCqFrLVJWEA8Y7S83k3lH9xODN/view?usp=drive_link"
-                                    // href="/events/technovision_2026/whole_rules_book.pdf"
+                                    href="/events/technovision_2026/whole_rules_book.pdf"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="flex items-center gap-2 bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-700 transition-colors shadow-lg shadow-slate-900/20 border border-slate-700"
@@ -660,18 +659,22 @@ const Technovision = () => {
                             </a>
                         </div>
 
-                        <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-2">
-                            {/* <a href="tel:+919179736005" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
-                            <Phone size={18} />
-                            <span>Himanshu Deshmukh - 9179736005</span>
-                        </a> */}
-                            <a href="tel:+916268459415" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-2">
+                            <a href="tel:+917828879681" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
                                 <Phone size={18} />
-                                <span>Shreya Chahar - 6268459415</span>
+                                <span>Pramit Singh - (78288 79681)</span>
                             </a>
-                            <a href="tel:+919691347076" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                            <a href="tel:+919302276804" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
                                 <Phone size={18} />
-                                <span>Nitil Singh - 9691347076</span>
+                                <span>Devansh Patel - (93022 76804)</span>
+                            </a>
+                            <a href="tel:+919238138023" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                                <Phone size={18} />
+                                <span>Dhananjay Rawat - (92381 38023)</span>
+                            </a>
+                            <a href="tel:+917805823575" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                                <Phone size={18} />
+                                <span>Anshika Shukla - (78058 23575)</span>
                             </a>
                         </div>
                     </div>

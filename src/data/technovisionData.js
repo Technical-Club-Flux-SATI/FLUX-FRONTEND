@@ -25,11 +25,6 @@ import robo1 from '../assets/events/technovision_2026/robo/1.jpeg';
 import robo2 from '../assets/events/technovision_2026/robo/2.jpeg';
 import robo3 from '../assets/events/technovision_2026/robo/3.jpeg';
 
-// Ropeway gallery
-import ropeway1 from '../assets/events/technovision_2026/ropeway/1.jpeg';
-import ropeway2 from '../assets/events/technovision_2026/ropeway/2.jpeg';
-import ropeway3 from '../assets/events/technovision_2026/ropeway/3.jpeg';
-
 // ── Event Metadata ─────────────────────────────────────────────────────
 export const EVENT_META = {
   name: 'Technovision 2026',
@@ -43,7 +38,7 @@ export const EVENT_META = {
   institute: 'Samrat Ashok Technological Institute (SATI), Vidisha',
   email: 'flux.club@satiengg.in',
   whatsappGroup: 'https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc',
-  rulebookUrl: 'https://drive.google.com/file/d/1Ee689teCqFrLVJWEA8Y7S83k3lH9xODN/view?usp=drive_link',
+  rulebookUrl: '/events/technovision_2026/whole_rules_book.pdf',
   heroImage: groupImg,
   contacts: [
     { name: 'Pramit Singh', phone: '7828879681', displayPhone: '78288 79681' },
@@ -155,7 +150,7 @@ export const COMPETITIONS = [
     categoryColor: 'cyan',
     icon: 'Bot',
     banner: bannerRopeway,
-    gallery: [ropeway1, ropeway2, ropeway3],
+    gallery: [],
     tagline: '🛑 No wheels allowed. Legged linkages, inchworms & crawlers only.',
     shortDescription: 'Legged, Crawlers & Non-Wheeled Locomotion',
     overview: 'Obstacle sprint for custom robots built strictly without wheels, using legged linkages or crawlers.',
