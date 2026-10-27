@@ -125,6 +125,15 @@ export const addFAQAnswer = (id, answerData) => API.post(`/faq/${id}/answer`, an
 export const upvoteFAQ = (id) => API.put(`/faq/${id}/upvote`);
 export const resolveFAQ = (id) => API.put(`/faq/${id}/resolve`);
 
+// --- TECHNOVISION NOV 2026 ENDPOINTS ---
+export const registerTechnovisionNov = (formData) => API.post('/technovision-nov/register', formData, { timeout: 20000 });
+export const verifyTechnovisionAdminKey = (key) =>
+  API.post('/technovision-nov/verify-key', {}, { headers: { 'x-technovision-key': key } });
+export const fetchTechnovisionNovRegistrations = (key) =>
+  API.get('/technovision-nov/registrations', { headers: { 'x-technovision-key': key } });
+export const deleteTechnovisionNovRegistration = (id, key) =>
+  API.delete(`/technovision-nov/registrations/${id}`, { headers: { 'x-technovision-key': key } });
+
 // --- SYSTEM HELPERS ---
 export const logoutUser = () => {
   localStorage.removeItem('userInfo');

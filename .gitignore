@@ -29,3 +29,6 @@ technovision/registrations.json
 *.njsproj
 *.sln
 *.sw?
+.env
+.env.*
+!.env.example

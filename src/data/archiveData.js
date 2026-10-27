@@ -15,12 +15,23 @@ import recruitment_26_poster from '../assets/events/Events-Posters/recruitment_2
 import recruitment_25_poster from '../assets/events/Events-Posters/recruitment_25.jpeg';
 import code_to_creation_poster from '../assets/events/Events-Posters/web_dev_workshop_2026.jpeg';
 import banner10_poster from '../assets/banner/10.png';
+import technovision_nov26_poster from '../assets/events/technovision_nov2026/Technovision.jpeg';
 
 /* ===================== DATA STRUCTURE ===================== */
 
 export const ARCHIVE_DATA = {
 
   "2026": [
+    {
+      title: "TECHNOVISION NOV '26",
+      tag: "Mega Technical Fest",
+      detailsUrl: "/events/technovision-nov-2026",
+      images: [technovision_nov26_poster],
+      terminal: "> registration_deadline: 30_Oct_2026\n> date: 02-03_Nov_2026\n> events: Model_Presentation, Robo_Rumble, Walking_Bot\n> focus: Robotics_&_Innovation",
+      date: "2026-10-22",
+      popularity: 110,
+      summary: "Technovision returns this November with three premier competitions: Model Presentation, Robo Rumble, and the all-new Walking Bot challenge. Open to students of all colleges. Register by 30 October."
+    },
     {
       title: "FLUX RECRUITMENT 2026",
       tag: "Membership Drive",
