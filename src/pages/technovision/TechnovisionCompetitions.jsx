@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import {
   Calendar, MapPin, ChevronDown, MessageCircle, Download,
   ExternalLink, Lightbulb, Bot, Trophy, ArrowRight, Mail, Phone, Sparkles,
-  Volume2, VolumeX, Play, Pause
+  Volume2, VolumeX, Play, Pause, Instagram
 } from 'lucide-react';
 import { COMPETITIONS, EVENT_META } from '../../data/technovisionData';
 import './TechnovisionCompetitions.css';
@@ -539,6 +539,14 @@ const TechnovisionCompetitions = () => {
               className="flex items-center gap-2 bg-[#25D366] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#20bd5a] transition-colors shadow-lg shadow-green-500/20"
             >
               <MessageCircle size={20} /> Join WhatsApp Group
+            </a>
+            <a
+              href="https://www.instagram.com/fluxsati/"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 bg-gradient-to-r from-[#f58529] via-[#dd2a7b] to-[#8134af] text-white px-6 py-3 rounded-xl font-bold hover:brightness-110 transition-all shadow-lg shadow-pink-500/20"
+            >
+              <Instagram size={20} /> Instagram
             </a>
             <a
               href={EVENT_META.rulebookUrl}
