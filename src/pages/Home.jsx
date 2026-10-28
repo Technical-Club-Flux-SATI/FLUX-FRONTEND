@@ -38,9 +38,6 @@ const Home = () => {
       {/* Technovision 2026 Poster Modal Popup */}
       <TechnovisionPopup />
 
-      {/* Technovision 2026 registration popup */}
-      <TechnovisionPopup />
-
       {/* ===== INJECTED ANIMATIONS ===== */}
       <style dangerouslySetInnerHTML={{
         __html: `
