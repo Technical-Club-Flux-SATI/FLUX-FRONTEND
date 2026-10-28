@@ -26,86 +26,85 @@ const MotionDiv = motion.div;
 const MotionH1 = motion.h1;
 const MotionP = motion.p;
 
-const CompetitionTire = ({ comp, index, selected, isSpinning, rotation, onClick }) => (
+const CompetitionTire = ({ comp, index, selected, isSpinning, onClick }) => (
   <button
     type="button"
-    className="competition-tire-button"
+    className={`competition-tire-button${isSpinning ? ' is-spinning' : ''}`}
     style={{ '--competition-accent': tireAccents[index % tireAccents.length] }}
     aria-label={`Spin tire for ${comp.title}`}
     aria-pressed={selected}
-    onPointerDown={(event) => {
-      if (event.pointerType === 'touch') event.preventDefault();
+    onClick={(event) => {
+      event.preventDefault();
+      event.stopPropagation();
       onClick();
     }}
     onKeyDown={(event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
+        event.stopPropagation();
         onClick();
       }
     }}
   >
     <span className="competition-tire-halo" aria-hidden="true" />
-    <svg
-      className={`competition-tire${isSpinning ? ' is-spinning' : ''}`}
-      viewBox="0 0 240 240"
-      aria-hidden="true"
-      style={{
-        transform: `rotate(${rotation || 0}deg)`,
-        transition: 'transform 1.3s cubic-bezier(0.12, 0.8, 0.32, 1), filter 380ms ease',
-        transformOrigin: '50% 50%',
-      }}
-    >
-      <defs>
-        <radialGradient id={`rubber-${comp.id}`} cx="42%" cy="35%">
-          <stop offset="0" stopColor="#41464d" />
-          <stop offset=".45" stopColor="#1b2025" />
-          <stop offset=".85" stopColor="#080a0d" />
-          <stop offset="1" stopColor="#30363d" />
-        </radialGradient>
-        <radialGradient id={`alloy-${comp.id}`} cx="35%" cy="28%">
-          <stop offset="0" stopColor="#f8fafc" />
-          <stop offset=".36" stopColor="#aeb8c2" />
-          <stop offset=".72" stopColor="#46515c" />
-          <stop offset="1" stopColor="#d5dce2" />
-        </radialGradient>
-      </defs>
-      <circle cx="120" cy="120" r="110" fill="#07090c" stroke="#50565e" strokeWidth="2" />
-      <circle cx="120" cy="120" r="104" fill={`url(#rubber-${comp.id})`} stroke="#101317" strokeWidth="5" />
-      {Array.from({ length: 36 }, (_, tread) => (
-        <g key={tread} transform={`rotate(${tread * 10} 120 120)`}>
-          <rect x="115" y="8" width="10" height="6" rx="2" fill="#59616a" opacity=".62" />
-          <path d="M111 18h18" stroke="#050608" strokeWidth="2" opacity=".75" />
-        </g>
-      ))}
-      <circle cx="120" cy="120" r="86" fill="#101419" stroke="#050608" strokeWidth="5" />
-      <circle cx="120" cy="120" r="77" fill={`url(#alloy-${comp.id})`} stroke="#222a31" strokeWidth="3" />
-      <circle cx="120" cy="120" r="68" fill="#252c33" stroke="#d9e0e5" strokeWidth="1.5" />
-      {Array.from({ length: 10 }, (_, spoke) => (
-        <g key={spoke} transform={`rotate(${spoke * 36} 120 120)`}>
-          <path d="M115 57 110 83 116 113 120 117 124 113 130 83 125 57Z" fill="#8e99a3" stroke="#273039" strokeWidth="2" />
-          <path d="m118 64-3 21 5 23 2-23-2-21Z" fill="#e9eef2" opacity=".7" />
-        </g>
-      ))}
-      <circle cx="120" cy="120" r="39" fill="#14191e" stroke="#d9e0e5" strokeWidth="2" />
-      <circle cx="120" cy="120" r="31" fill={`url(#alloy-${comp.id})`} stroke="#161b20" strokeWidth="3" />
-      {Array.from({ length: 5 }, (_, bolt) => {
-        const angle = bolt * (Math.PI * 2 / 5) - Math.PI / 2;
-        return (
-          <circle
-            key={bolt}
-            cx={120 + Math.cos(angle) * 22}
-            cy={120 + Math.sin(angle) * 22}
-            r="3.2"
-            fill="#222930"
-            stroke="#e2e8ed"
-            strokeWidth="1.5"
-          />
-        );
-      })}
-      <circle cx="120" cy="120" r="7" fill={tireAccents[index % tireAccents.length]} stroke="#f8fafc" strokeWidth="2" />
-      <path d="M61 49A86 86 0 0 1 115 34" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" opacity=".56" />
-      <path d="M47 75A87 87 0 0 1 56 57" fill="none" stroke={tireAccents[index % tireAccents.length]} strokeWidth="2" strokeLinecap="round" opacity=".82" />
-    </svg>
+    <div className={`competition-tire-rotator${isSpinning ? ' is-spinning' : ''}`}>
+      <svg
+        className={`competition-tire-svg competition-tire${isSpinning ? ' is-spinning' : ''}`}
+        viewBox="0 0 240 240"
+        aria-hidden="true"
+      >
+        <defs>
+          <radialGradient id={`rubber-${comp.id}`} cx="42%" cy="35%">
+            <stop offset="0" stopColor="#41464d" />
+            <stop offset=".45" stopColor="#1b2025" />
+            <stop offset=".85" stopColor="#080a0d" />
+            <stop offset="1" stopColor="#30363d" />
+          </radialGradient>
+          <radialGradient id={`alloy-${comp.id}`} cx="35%" cy="28%">
+            <stop offset="0" stopColor="#f8fafc" />
+            <stop offset=".36" stopColor="#aeb8c2" />
+            <stop offset=".72" stopColor="#46515c" />
+            <stop offset="1" stopColor="#d5dce2" />
+          </radialGradient>
+        </defs>
+        <circle cx="120" cy="120" r="110" fill="#07090c" stroke="#50565e" strokeWidth="2" />
+        <circle cx="120" cy="120" r="104" fill={`url(#rubber-${comp.id})`} stroke="#101317" strokeWidth="5" />
+        {Array.from({ length: 36 }, (_, tread) => (
+          <g key={tread} transform={`rotate(${tread * 10} 120 120)`}>
+            <rect x="115" y="8" width="10" height="6" rx="2" fill="#59616a" opacity=".62" />
+            <path d="M111 18h18" stroke="#050608" strokeWidth="2" opacity=".75" />
+          </g>
+        ))}
+        <circle cx="120" cy="120" r="86" fill="#101419" stroke="#050608" strokeWidth="5" />
+        <circle cx="120" cy="120" r="77" fill={`url(#alloy-${comp.id})`} stroke="#222a31" strokeWidth="3" />
+        <circle cx="120" cy="120" r="68" fill="#252c33" stroke="#d9e0e5" strokeWidth="1.5" />
+        {Array.from({ length: 10 }, (_, spoke) => (
+          <g key={spoke} transform={`rotate(${spoke * 36} 120 120)`}>
+            <path d="M115 57 110 83 116 113 120 117 124 113 130 83 125 57Z" fill="#8e99a3" stroke="#273039" strokeWidth="2" />
+            <path d="m118 64-3 21 5 23 2-23-2-21Z" fill="#e9eef2" opacity=".7" />
+          </g>
+        ))}
+        <circle cx="120" cy="120" r="39" fill="#14191e" stroke="#d9e0e5" strokeWidth="2" />
+        <circle cx="120" cy="120" r="31" fill={`url(#alloy-${comp.id})`} stroke="#161b20" strokeWidth="3" />
+        {Array.from({ length: 5 }, (_, bolt) => {
+          const angle = bolt * (Math.PI * 2 / 5) - Math.PI / 2;
+          return (
+            <circle
+              key={bolt}
+              cx={120 + Math.cos(angle) * 22}
+              cy={120 + Math.sin(angle) * 22}
+              r="3.2"
+              fill="#222930"
+              stroke="#e2e8ed"
+              strokeWidth="1.5"
+            />
+          );
+        })}
+        <circle cx="120" cy="120" r="7" fill={tireAccents[index % tireAccents.length]} stroke="#f8fafc" strokeWidth="2" />
+        <path d="M61 49A86 86 0 0 1 115 34" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" opacity=".56" />
+        <path d="M47 75A87 87 0 0 1 56 57" fill="none" stroke={tireAccents[index % tireAccents.length]} strokeWidth="2" strokeLinecap="round" opacity=".82" />
+      </svg>
+    </div>
   </button>
 );
 
@@ -183,20 +182,14 @@ const CompetitionCard = ({ comp, index, active, onCardClick }) => {
 const TechnovisionCompetitions = () => {
   const [selectedCompetition, setSelectedCompetition] = useState(null);
   const [hoveredCompetition, setHoveredCompetition] = useState(null);
-  const [tireRotations, setTireRotations] = useState({});
   const [spinningTires, setSpinningTires] = useState({});
   const activeCompetition = hoveredCompetition ?? selectedCompetition;
 
   const handleTireSpin = (compId, index) => {
-    // Add 720 degrees to rotation on each click
-    setTireRotations((prev) => ({
-      ...prev,
-      [compId]: (prev[compId] || 0) + 720,
-    }));
-
+    // Toggle continuous spinning on click
     setSpinningTires((prev) => ({
       ...prev,
-      [compId]: true,
+      [compId]: !prev[compId],
     }));
 
     setSelectedCompetition(compId);
@@ -208,26 +201,19 @@ const TechnovisionCompetitions = () => {
         const ctx = new AudioCtx();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(200 + index * 60, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 0.5);
-        gain.gain.setValueAtTime(0.06, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(140 + index * 50, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(320 + index * 80, ctx.currentTime + 0.35);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
-        osc.stop(ctx.currentTime + 0.5);
+        osc.stop(ctx.currentTime + 0.35);
       }
     } catch {
       // browser may require user gesture or audio policy, safe fallback
     }
-
-    setTimeout(() => {
-      setSpinningTires((prev) => ({
-        ...prev,
-        [compId]: false,
-      }));
-    }, 1300);
   };
 
   const [isMuted, setIsMuted] = useState(false);
@@ -548,7 +534,6 @@ const TechnovisionCompetitions = () => {
                 const selected = comp.id === selectedCompetition;
                 const active = comp.id === activeCompetition;
                 const isSpinning = Boolean(spinningTires[comp.id]);
-                const rotation = tireRotations[comp.id] || 0;
 
                 return (
                   <div
@@ -564,7 +549,6 @@ const TechnovisionCompetitions = () => {
                         index={index}
                         selected={selected}
                         isSpinning={isSpinning}
-                        rotation={rotation}
                         onClick={() => handleTireSpin(comp.id, index)}
                       />
                     </div>

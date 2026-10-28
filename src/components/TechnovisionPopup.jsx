@@ -40,8 +40,7 @@ const TechnovisionPopup = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            onClick={handleClose}
-            className="fixed inset-0 bg-black/85 backdrop-blur-md cursor-pointer"
+            className="fixed inset-0 bg-black/85 backdrop-blur-md"
           />
 
           <motion.div
@@ -51,10 +50,12 @@ const TechnovisionPopup = () => {
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
             className="relative w-full max-w-4xl my-auto z-10 rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(6,182,212,0.4)] border border-cyan-500/50 bg-[#07090e]"
           >
+            <div className="pointer-events-none absolute -top-1 right-1 sm:-top-1 sm:right-1 z-20 h-16 w-16 rounded-full bg-[#07090e]/95 border border-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.25)]" />
+            <div className="pointer-events-none absolute -top-2 right-0 sm:-top-2 sm:right-0 z-20 h-20 w-20 rounded-full bg-[#07090e]" />
             <button
               onClick={handleClose}
               aria-label="Close Technovision announcement"
-              className="absolute top-3 right-3 sm:top-5 sm:right-5 z-30 p-2 sm:p-2.5 bg-black/80 hover:bg-cyan-500/30 text-white/90 hover:text-white rounded-full border border-white/30 hover:border-cyan-400 transition-all backdrop-blur-md shadow-xl group focus:outline-none focus:ring-2 focus:ring-cyan-400 cursor-pointer"
+              className="absolute top-3 right-3 sm:top-5 sm:right-5 z-30 p-2 sm:p-2.5 bg-black/80 hover:bg-red-500/30 text-white/90 hover:text-white rounded-full border border-white/30 hover:border-red-400 transition-all backdrop-blur-md shadow-xl group focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
             >
               <X size={22} className="sm:w-6 sm:h-6 group-hover:rotate-90 transition-transform duration-200" />
             </button>

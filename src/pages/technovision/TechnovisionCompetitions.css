@@ -187,6 +187,11 @@
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   transition: transform 380ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  filter: drop-shadow(0 14px 13px rgba(15, 23, 42, 0.24));
+}
+
+.competition-tire-button:hover {
+  transform: scale(1.05);
 }
 
 .competition-tire-button:active {
@@ -204,27 +209,57 @@
   border: 1px solid color-mix(in srgb, var(--competition-accent) 27%, transparent);
   border-radius: 50%;
   opacity: 0.56;
+  pointer-events: none;
   transition: inset 380ms ease, opacity 380ms ease, box-shadow 380ms ease;
 }
 
-.competition-tire {
+.competition-tire-button:hover .competition-tire-halo {
+  inset: 3%;
+  opacity: 0.85;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--competition-accent) 35%, transparent);
+}
+
+.competition-tire-rotator {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  animation: competition-wheel-spin 1.2s linear infinite;
+  animation-play-state: paused;
+  transition: filter 380ms ease;
+}
+
+.competition-tire-rotator.is-spinning {
+  animation-play-state: running;
+  filter:
+    drop-shadow(0 14px 16px rgba(15, 23, 42, 0.32))
+    drop-shadow(0 0 24px color-mix(in srgb, var(--competition-accent) 85%, transparent));
+}
+
+.competition-tire,
+.competition-tire-svg {
   position: relative;
   z-index: 1;
   width: 100%;
   height: 100%;
   overflow: visible;
-  transform-origin: 50% 50%;
-  filter: drop-shadow(0 14px 13px rgba(15, 23, 42, 0.24));
-  transition: filter 380ms ease;
+  pointer-events: none;
 }
 
 .competition-tire.is-spinning {
-  filter:
-    drop-shadow(0 14px 16px rgba(15, 23, 42, 0.32))
-    drop-shadow(0 0 20px color-mix(in srgb, var(--competition-accent) 85%, transparent));
+  animation: competition-wheel-spin 1.2s linear infinite;
+  animation-play-state: running;
 }
 
 @keyframes competition-wheel-spin {
+  from {
+    transform: rotate(0deg);
+  }
   to {
     transform: rotate(360deg);
   }
@@ -583,7 +618,8 @@
     display: none;
   }
 
-  .competition-tire.is-spinning {
+  .competition-tire.is-spinning,
+  .competition-tire-rotator.is-spinning {
     animation: none;
   }
 
