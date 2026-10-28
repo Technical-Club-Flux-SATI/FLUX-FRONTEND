@@ -30,7 +30,11 @@ const galleryPhotos = Object.values(rawGalleryImages).map((m) => m.default || m)
 
 // PDFs
 import roboPdf from '../assets/events/technovision_nov2026/robo_rumble_rules.pdf';
-// Model Presentation and Walking Bot rulebooks will be added later (leave pdfLink null until then)
+import modelPdf from '../assets/events/technovision_nov2026/model_presentation_rulebook.pdf';
+import walkingBotPdf from '../assets/events/technovision_nov2026/walking_bot_rules.pdf';
+import wholeRulesPdf from '../assets/events/technovision_nov2026/whole_rules_book.pdf';
+
+const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc";
 
 // Registration Form Component
 import TechnovisionNovRegistration from '../components/TechnovisionNovRegistration';
@@ -109,6 +113,37 @@ const CountdownTimer = ({ targetDate }) => {
     );
 };
 
+const SECTION_TONES = {
+    cyan: 'text-cyan-600 dark:text-cyan-400',
+    amber: 'text-amber-600 dark:text-amber-400',
+    purple: 'text-purple-900 dark:text-purple-300',
+};
+
+// Collapsed dropdown below lg, always-open block on lg and above
+const CollapsibleSection = ({ title, icon, tone = 'cyan', wrapClass = '', children }) => {
+    const [open, setOpen] = useState(false);
+    const toneClass = SECTION_TONES[tone];
+    return (
+        <div className={wrapClass}>
+            <button
+                type="button"
+                onClick={() => setOpen((v) => !v)}
+                aria-expanded={open}
+                className={`lg:hidden w-full flex items-center justify-between gap-2 text-left text-xs font-mono uppercase tracking-widest font-bold min-h-[32px] ${toneClass}`}
+            >
+                <span className="flex items-center gap-2">{icon} {title}</span>
+                <ChevronDown size={16} className={`shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+            </button>
+            <h4 className={`hidden lg:flex text-sm font-mono uppercase tracking-widest items-center gap-2 mb-3 font-bold ${toneClass}`}>
+                {icon} {title}
+            </h4>
+            <div className={`${open ? 'block pt-2.5' : 'hidden'} lg:block lg:pt-0`}>
+                {children}
+            </div>
+        </div>
+    );
+};
+
 const TechnovisionNov2026 = () => {
     const [activeTab, setActiveTab] = useState('botRacing'); // default highlights the exciting new competition
     const [showStickyBar, setShowStickyBar] = useState(false);
@@ -166,7 +201,7 @@ const TechnovisionNov2026 = () => {
             badge: 'Open Innovation',
             icon: <Lightbulb size={26} />,
             color: 'amber',
-            pdfLink: null,
+            pdfLink: modelPdf,
             description: "Demonstrate a working hardware prototype, robotics system, or IoT solution to an expert jury.",
             highlight: "Working model required. Live Q&A and jury scoring.",
             rules: [
@@ -181,7 +216,7 @@ const TechnovisionNov2026 = () => {
             ],
             timeline: [
                 { time: "30 Oct 2026", event: "Registration Deadline" },
-                { time: "02 Nov 2026 (10:30 AM)", event: "Event Date & Time" },
+                { time: "02 Nov 2026 (10 AM - 5 PM)", event: "Event Date & Time" },
                 { time: "216 Classroom", event: "Location" }
             ]
         },
@@ -208,8 +243,8 @@ const TechnovisionNov2026 = () => {
             ],
             timeline: [
                 { time: "30 Oct 2026", event: "Registration Deadline" },
-                { time: "03 Nov 2026 (10:30 AM)", event: "Event Date & Time" },
-                { time: "SU Ground", event: "Location" }
+                { time: "03 Nov 2026 (10 AM - 2 PM)", event: "Event Date & Time" },
+                { time: "IT Garden", event: "Location" }
             ]
         },
         botRacing: {
@@ -220,7 +255,7 @@ const TechnovisionNov2026 = () => {
             badge: 'Strictly No Wheels',
             icon: <Bot size={26} />,
             color: 'purple',
-            pdfLink: null,
+            pdfLink: walkingBotPdf,
             description: "Obstacle sprint for custom robots built strictly without wheels, using legged linkages or crawlers.",
             highlight: "🛑 No wheels allowed. Legged linkages, inchworms & crawlers only.",
             notice: "All bots must be completed by 30 October. A screening round will be held on 31 October. Only 15 shortlisted teams will be selected for Walking Bot.",
@@ -237,8 +272,8 @@ const TechnovisionNov2026 = () => {
             ],
             timeline: [
                 { time: "30 Oct 2026", event: "Registration Deadline" },
-                { time: "02 Nov 2026 (10:30 AM)", event: "Event Date & Time" },
-                { time: "SU Ground", event: "Location" }
+                { time: "02 Nov 2026 (2:30 PM - 5 PM)", event: "Event Date & Time" },
+                { time: "IT Garden", event: "Location" }
             ]
         }
     };
@@ -462,7 +497,7 @@ ${window.location.href}`;
                             >
                                 <MapPin size={15} className="text-cyan-500" />
                                 <span className="text-xs sm:text-sm font-bold uppercase tracking-wider">
-                                    SU Ground, SATI Vidisha
+                                    IT Garden, SATI Vidisha
                                 </span>
                             </a>
                         </motion.div>
@@ -553,43 +588,29 @@ ${window.location.href}`;
                                 <Flame size={16} className="text-amber-300" /> Register Your Team Now
                             </button>
 
-                            <button
-                                onClick={handleShareWhatsApp}
+                            <a
+                                href={WHATSAPP_GROUP_URL}
+                                target="_blank"
+                                rel="noreferrer"
                                 className="flex items-center justify-center gap-1.5 sm:gap-2 bg-[#25D366] text-white px-3 sm:px-6 py-2.5 sm:py-4 rounded-xl font-bold hover:bg-[#20bd5a] transition-all shadow-md text-xs sm:text-sm min-h-[40px] sm:min-h-[48px]"
                             >
-                                <Share2 size={15} /> WhatsApp
-                            </button>
+                                <MessageCircle size={15} /> Join WhatsApp Group
+                            </a>
 
-                            <button
-                                onClick={handleCopyLink}
-                                className="flex items-center justify-center gap-1.5 sm:gap-2 bg-slate-800 text-slate-200 hover:text-white px-3 sm:px-5 py-2.5 sm:py-4 rounded-xl font-bold hover:bg-slate-700 transition-all border border-slate-700 text-xs sm:text-sm min-h-[40px] sm:min-h-[48px]"
+                            <a
+                                href={wholeRulesPdf}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center justify-center gap-1.5 sm:gap-2 bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-300 hover:text-black dark:hover:text-white px-2 sm:px-6 py-2.5 sm:py-4 rounded-xl font-bold leading-tight text-center transition-all border border-slate-200 dark:border-white/10 text-xs sm:text-sm min-h-[40px] sm:min-h-[48px]"
                             >
-                                {copiedLink ? <Check size={15} className="text-emerald-400" /> : <Copy size={15} />}
-                                {copiedLink ? "Copied!" : "Copy Link"}
-                            </button>
-
-                            {(() => {
-                                const heroClass = "col-span-2 sm:col-span-1 sm:w-auto flex items-center justify-center gap-2 bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-300 hover:text-black dark:hover:text-white px-4 sm:px-6 py-2.5 sm:py-4 rounded-xl font-bold transition-all border border-slate-200 dark:border-white/10 text-xs sm:text-sm min-h-[40px] sm:min-h-[48px]";
-                                return currentEvent.pdfLink ? (
-                                    <a href={currentEvent.pdfLink} target="_blank" rel="noreferrer" className={heroClass}>
-                                        <Download size={15} /> Rulebook (PDF)
-                                    </a>
-                                ) : (
-                                    <button
-                                        type="button"
-                                        onClick={() => toast(`${currentEvent.title} rulebook will be available soon.`)}
-                                        className={heroClass}
-                                    >
-                                        <Download size={15} /> Rulebook (PDF)
-                                    </button>
-                                );
-                            })()}
+                                <Download size={15} /> Complete Rulebook (PDF)
+                            </a>
                         </div>
                     </div>
                 </section>
 
                 {/* ================= KEY METRICS & CREDIBILITY BAR ================= */}
-                <section className="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-8">
+                <section className="hidden md:block max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-8">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 p-3.5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/70 dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-lg backdrop-blur-md">
                         <div className="text-center p-2 sm:p-3">
                             <h3 className="text-2xl min-[360px]:text-3xl sm:text-5xl font-black text-cyan-600 dark:text-cyan-400 font-mono">Open</h3>
@@ -774,37 +795,37 @@ ${window.location.href}`;
                     </div>
 
                     {/* Game-Mode Style Arena Selector Cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-10">
+                    <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-10">
                         {Object.values(events).map((ev) => {
                             const isSelected = activeTab === ev.id;
                             return (
                                 <button
                                     key={ev.id}
                                     onClick={() => setActiveTab(ev.id)}
-                                    className={`relative p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border text-left transition-all duration-300 flex items-center justify-between ${
+                                    className={`relative p-2 sm:p-5 rounded-xl sm:rounded-2xl border text-center sm:text-left transition-all duration-300 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-1 sm:gap-0 ${
                                         isSelected
-                                            ? 'bg-cyan-50 dark:bg-cyan-950/20 border-cyan-500 text-cyan-900 dark:text-cyan-300 shadow-[0_0_30px_rgba(6,182,212,0.25)] scale-[1.02] ring-2 ring-cyan-500/40'
+                                            ? 'bg-cyan-50 dark:bg-cyan-950/20 border-cyan-500 text-cyan-900 dark:text-cyan-300 shadow-[0_0_30px_rgba(6,182,212,0.25)] sm:scale-[1.02] ring-2 ring-cyan-500/40'
                                             : 'bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-400 hover:border-cyan-500/40'
                                     }`}
                                 >
-                                    <div className="flex items-center gap-3">
-                                        <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 ${
+                                    <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 min-w-0">
+                                        <div className={`w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-[26px] sm:[&>svg]:h-[26px] ${
                                             isSelected ? 'bg-cyan-500 text-black shadow-md' : 'bg-slate-100 dark:bg-black/40 text-slate-600 dark:text-slate-300'
                                         }`}>
                                             {ev.icon}
                                         </div>
                                         <div className="min-w-0 flex-1">
-                                            <span className="text-[9px] sm:text-[10px] font-mono tracking-wider uppercase text-cyan-600 dark:text-cyan-400 font-bold block truncate">
+                                            <span className="hidden sm:block text-[10px] font-mono tracking-wider uppercase text-cyan-600 dark:text-cyan-400 font-bold truncate">
                                                 {ev.badge}
                                             </span>
-                                            <h4 className="text-sm sm:text-base md:text-lg font-black uppercase tracking-tight text-slate-900 dark:text-white truncate">
+                                            <h4 className="text-[11px] leading-tight sm:leading-normal sm:text-base md:text-lg font-black uppercase tracking-tight text-slate-900 dark:text-white sm:truncate">
                                                 {ev.title}
                                             </h4>
                                         </div>
                                     </div>
 
                                     {isSelected && (
-                                        <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping shrink-0" />
+                                        <div className="hidden sm:block w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping shrink-0" />
                                     )}
                                 </button>
                             );
@@ -818,10 +839,10 @@ ${window.location.href}`;
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -15 }}
-                            className="bg-white dark:bg-[#0c0d14] rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-cyan-500/30 p-4 min-[360px]:p-6 sm:p-10 lg:p-12 shadow-2xl space-y-6 sm:space-y-10"
+                            className="bg-white dark:bg-[#0c0d14] rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-cyan-500/30 p-3.5 min-[360px]:p-4 sm:p-10 lg:p-12 shadow-2xl space-y-4 sm:space-y-10"
                         >
                             {/* Card Header */}
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 border-b border-slate-200 dark:border-white/10 pb-6 sm:pb-8">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-6 border-b border-slate-200 dark:border-white/10 pb-4 sm:pb-8">
                                 <div>
                                     <span className="text-xs font-mono uppercase tracking-widest text-cyan-600 dark:text-cyan-400 font-bold">
                                         {currentEvent.tag}
@@ -839,10 +860,10 @@ ${window.location.href}`;
                                     </p>
                                 </div>
 
-                                <div className="flex flex-col min-[360px]:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
+                                <div className="flex flex-row gap-2 sm:gap-3 w-full sm:w-auto">
                                     <button
                                         onClick={() => scrollToRegistration(currentEvent.id)}
-                                        className="flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs transition-all shadow-lg shadow-cyan-500/25 min-h-[44px]"
+                                        className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-2 sm:px-6 leading-tight text-center py-3 sm:py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs transition-all shadow-lg shadow-cyan-500/25 min-h-[44px]"
                                     >
                                         Register For This Event <ArrowRight size={14} />
                                     </button>
@@ -852,53 +873,71 @@ ${window.location.href}`;
                                             href={currentEvent.pdfLink}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs transition-all border border-slate-300 dark:border-slate-700 min-h-[44px]"
+                                            aria-label="Rulebook (PDF)"
+                                            className="flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white flex-1 sm:flex-none px-2 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs leading-tight text-center transition-all border border-slate-300 dark:border-slate-700 min-h-[44px]"
                                         >
-                                            <Download size={14} /> Rulebook (PDF)
+                                            <Download size={14} /> <span>Rulebook (PDF)</span>
                                         </a>
                                     ) : (
                                         <button
                                             type="button"
+                                            aria-label="Rulebook (PDF)"
                                             onClick={() => toast(`${currentEvent.title} rulebook will be available soon.`)}
-                                            className="flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs transition-all border border-slate-300 dark:border-slate-700 min-h-[44px]"
+                                            className="flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white flex-1 sm:flex-none px-2 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs leading-tight text-center transition-all border border-slate-300 dark:border-slate-700 min-h-[44px]"
                                         >
-                                            <Download size={14} /> Rulebook (PDF)
+                                            <Download size={14} /> <span>Rulebook (PDF)</span>
                                         </button>
                                     )}
                                 </div>
                             </div>
 
                             {/* Details Grid */}
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-10">
                                 {/* Left Column: About & Rules */}
-                                <div className="space-y-8">
+                                <div className="space-y-3 lg:space-y-8">
                                     {currentEvent.notice && (
-                                        <div className="flex items-start gap-3 p-4 rounded-2xl bg-red-50 dark:bg-red-950/30 border-2 border-red-400 dark:border-red-500/50">
-                                            <AlertTriangle size={22} className="text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+                                        <div className="flex items-start gap-2.5 sm:gap-3 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-red-50 dark:bg-red-950/30 border-2 border-red-400 dark:border-red-500/50">
+                                            <AlertTriangle size={20} className="text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
                                             <div className="space-y-1">
-                                                <span className="text-[11px] font-mono font-black uppercase tracking-widest text-red-600 dark:text-red-400">
+                                                <span className="text-[10px] sm:text-[11px] font-mono font-black uppercase tracking-widest text-red-600 dark:text-red-400">
                                                     Important Notice
                                                 </span>
-                                                <p className="text-sm font-bold text-red-950 dark:text-red-100 leading-relaxed">
+                                                <p className="text-xs sm:text-sm font-bold text-red-950 dark:text-red-100 leading-relaxed">
                                                     {currentEvent.notice}
                                                 </p>
                                             </div>
                                         </div>
                                     )}
 
-                                    <div>
-                                        <h4 className="text-sm font-mono uppercase tracking-widest text-cyan-600 dark:text-cyan-400 flex items-center gap-2 mb-3 font-bold">
-                                            <Info size={16} /> About The Competition
-                                        </h4>
-                                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-base">
-                                            {currentEvent.description}
-                                        </p>
+                                    {/* Timeline chips (mobile / tablet only; full box shows on lg) */}
+                                    <div className="grid grid-cols-3 gap-1.5 lg:hidden">
+                                        {currentEvent.timeline.map((item, idx) => (
+                                            <div key={idx} className="p-2 rounded-lg bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-center min-w-0">
+                                                <span className="block text-[9px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 leading-tight">
+                                                    {item.event}
+                                                </span>
+                                                <span className="block text-[11px] font-mono font-bold text-cyan-600 dark:text-cyan-300 leading-tight mt-1 break-words">
+                                                    {item.time}
+                                                </span>
+                                            </div>
+                                        ))}
                                     </div>
 
-                                    <div>
-                                        <h4 className="text-sm font-mono uppercase tracking-widest text-cyan-600 dark:text-cyan-400 flex items-center gap-2 mb-3 font-bold">
-                                            <ShieldAlert size={16} /> Key Rules & Regulations
-                                        </h4>
+                                    <CollapsibleSection
+                                        title="About The Competition"
+                                        icon={<Info size={16} />}
+                                        wrapClass="p-3 lg:p-0 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 lg:border-0 lg:bg-transparent lg:rounded-none"
+                                    >
+                                        <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm lg:text-base">
+                                            {currentEvent.description}
+                                        </p>
+                                    </CollapsibleSection>
+
+                                    <CollapsibleSection
+                                        title="Key Rules & Regulations"
+                                        icon={<ShieldAlert size={16} />}
+                                        wrapClass="p-3 lg:p-0 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 lg:border-0 lg:bg-transparent lg:rounded-none"
+                                    >
                                         <ul className="space-y-2.5">
                                             {currentEvent.rules.map((rule, idx) => (
                                                 <li key={idx} className="flex items-start gap-2.5 text-slate-700 dark:text-slate-300 text-sm">
@@ -907,26 +946,28 @@ ${window.location.href}`;
                                                 </li>
                                             ))}
                                         </ul>
-                                    </div>
+                                    </CollapsibleSection>
 
                                     {/* Special Mechanism Callout for Walking Bot */}
                                     {currentEvent.id === 'botRacing' && (
-                                        <div className="p-5 rounded-2xl bg-purple-50 dark:bg-purple-950/40 border border-purple-300 dark:border-purple-500/40 space-y-2">
-                                            <span className="text-xs font-mono text-purple-900 dark:text-purple-300 font-bold uppercase flex items-center gap-1.5">
-                                                <Bot size={16} /> Accepted Locomotion Inspirations:
-                                            </span>
+                                        <CollapsibleSection
+                                            title="Accepted Locomotion Inspirations"
+                                            icon={<Bot size={16} />}
+                                            tone="purple"
+                                            wrapClass="p-3 lg:p-5 rounded-xl lg:rounded-2xl bg-purple-50 dark:bg-purple-950/40 border border-purple-300 dark:border-purple-500/40"
+                                        >
                                             <p className="text-xs text-purple-800 dark:text-purple-200/90 leading-relaxed">
                                                 Theo Jansen leg linkages, Klann linkages, bipedal or quadruped walkers,
                                                 peristaltic / inchworm crawlers, and linear slide skating mechanisms. Any wheel usage results in immediate disqualification.
                                             </p>
-                                        </div>
+                                        </CollapsibleSection>
                                     )}
                                 </div>
 
                                 {/* Right Column: Timeline & Prizes */}
-                                <div className="space-y-6">
-                                    {/* Timeline Box */}
-                                    <div className="p-6 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-4">
+                                <div className="space-y-3 lg:space-y-6">
+                                    {/* Timeline Box (lg only) */}
+                                    <div className="hidden lg:block p-6 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 space-y-4">
                                         <h4 className="text-sm font-mono uppercase tracking-widest text-cyan-600 dark:text-cyan-400 flex items-center gap-2 font-bold">
                                             <Clock size={16} /> Arena Timeline
                                         </h4>
@@ -941,10 +982,12 @@ ${window.location.href}`;
                                     </div>
 
                                     {/* Prize Pool Box */}
-                                    <div className="p-6 rounded-2xl bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/30 space-y-4">
-                                        <h4 className="text-sm font-mono uppercase tracking-widest text-amber-600 dark:text-amber-400 flex items-center gap-2 font-bold">
-                                            <Trophy size={16} /> Rewards & Recognition
-                                        </h4>
+                                    <CollapsibleSection
+                                        title="Rewards & Recognition"
+                                        icon={<Trophy size={16} />}
+                                        tone="amber"
+                                        wrapClass="p-3 lg:p-6 rounded-xl lg:rounded-2xl bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/30"
+                                    >
                                         <ul className="space-y-2">
                                             {currentEvent.prizes.map((p, idx) => (
                                                 <li key={idx} className="flex items-start gap-2.5 text-slate-800 dark:text-amber-200/90 text-sm">
@@ -953,7 +996,7 @@ ${window.location.href}`;
                                                 </li>
                                             ))}
                                         </ul>
-                                    </div>
+                                    </CollapsibleSection>
                                 </div>
                             </div>
                         </motion.div>
@@ -1148,7 +1191,7 @@ ${window.location.href}`;
                                 rel="noreferrer"
                                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-black font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-all shadow-md"
                             >
-                                <MapPin size={16} className="text-cyan-400 dark:text-cyan-600" /> Open SU Ground Directions on Google Maps
+                                <MapPin size={16} className="text-cyan-400 dark:text-cyan-600" /> Open IT Garden Directions on Google Maps
                             </a>
                         </div>
 

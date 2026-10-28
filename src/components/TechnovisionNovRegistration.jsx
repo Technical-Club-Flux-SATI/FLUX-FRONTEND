@@ -74,9 +74,9 @@ const YEARS = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
 
 // Date, time and venue shown on the pass for each event
 const EVENT_SCHEDULE = {
-  model: { date: "02 Nov 2026", time: "10:30 AM", venue: "216 Classroom" },
-  robo: { date: "03 Nov 2026", time: "10:30 AM", venue: "SU Ground" },
-  botRacing: { date: "02 Nov 2026", time: "10:30 AM", venue: "SU Ground" },
+  model: { date: "02 Nov 2026", time: "10 AM - 5 PM", venue: "216 Classroom" },
+  robo: { date: "03 Nov 2026", time: "10 AM - 2 PM", venue: "IT Garden" },
+  botRacing: { date: "02 Nov 2026", time: "2:30 PM - 5 PM", venue: "IT Garden" },
 };
 const getSchedule = (eventId) => EVENT_SCHEDULE[eventId] || EVENT_SCHEDULE.model;
 
@@ -366,9 +366,13 @@ const TechnovisionNovRegistration = ({ preselectedEvent = "model", onEventChange
       }, 100);
     } catch (err) {
       const status = err.response?.status;
+      console.error("Technovision registration failed:", status || err.code, err.message);
       if (!err.response || status >= 500) {
+        const reason = !err.response
+          ? "We could not reach the registration server. Check your internet connection."
+          : "The registration server is busy right now.";
         toast.error(
-          "We could not reach the registration server. Your details are saved on this device. Please try again in a moment. If it keeps failing, contact the organizers: Devansh 9302276804, Dhananjay 9238138023, Devanshu 7024019720, Mrinal 9752639678 or flux.club@satiengg.in. If you already submitted once, trying again is safe.",
+          `${reason} Your details are saved on this device. Please try again in a moment. If it keeps failing, contact the organizers: Devansh 9302276804, Dhananjay 9238138023, Devanshu 7024019720, Mrinal 9752639678 or flux.club@satiengg.in. If you already submitted once, trying again is safe.`,
           { duration: 10000 }
         );
       } else {
@@ -715,14 +719,20 @@ Please find the registration pass (PDF) attached.`;
                 </button>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-2 space-y-2 p-4 rounded-2xl border-2 border-emerald-500/60 bg-emerald-500/10">
+                <p className="text-sm font-bold text-emerald-300">
+                  Important: join the official Technovision WhatsApp group
+                </p>
+                <p className="text-xs text-slate-300">
+                  All updates, schedule changes and announcements are shared only in the Flux Club group. Every registered participant must join.
+                </p>
                 <a
-                  href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc?mode=gi_t"
+                  href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 hover:text-cyan-300 underline underline-offset-4"
+                  className="flex items-center justify-center gap-2 bg-[#25D366] text-white px-5 py-3.5 rounded-xl font-bold hover:bg-[#20bd5a] transition-all shadow-lg shadow-green-500/20 text-sm"
                 >
-                  <MessageCircle size={14} /> Join Official Technovision WhatsApp Community →
+                  <MessageCircle size={16} /> Join Technovision WhatsApp Group
                 </a>
               </div>
 
@@ -747,7 +757,7 @@ Please find the registration pass (PDF) attached.`;
               <label className="text-xs font-mono tracking-widest uppercase text-cyan-600 dark:text-cyan-400 flex items-center gap-2 font-bold">
                 <Trophy size={16} /> 1. Select Competition Arena
               </label>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-2 md:gap-4">
                 {EVENTS.map((ev) => {
                   const Icon = ev.icon;
                   const isSelected = selectedEventId === ev.id;
@@ -756,49 +766,59 @@ Please find the registration pass (PDF) attached.`;
                       type="button"
                       key={ev.id}
                       onClick={() => handleSelectEvent(ev.id)}
-                      className={`relative p-5 rounded-2xl border text-left transition-all duration-300 flex flex-col justify-between ${
+                      className={`relative p-2 md:p-5 rounded-xl md:rounded-2xl border text-center md:text-left transition-all duration-300 flex flex-col items-center md:items-stretch justify-center md:justify-between gap-1 md:gap-0 ${
                         isSelected
-                          ? `bg-cyan-50 dark:bg-cyan-950/20 ${ev.border} shadow-[0_0_25px_rgba(6,182,212,0.25)] scale-[1.02] ring-2 ring-cyan-500/30`
+                          ? `bg-cyan-50 dark:bg-cyan-950/20 ${ev.border} shadow-[0_0_25px_rgba(6,182,212,0.25)] md:scale-[1.02] ring-2 ring-cyan-500/30`
                           : "bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-cyan-500/40 text-slate-600 dark:text-slate-400"
                       }`}
                     >
                       <div className="flex items-start justify-between">
                         <div
-                          className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                          className={`w-8 h-8 md:w-12 md:h-12 rounded-lg md:rounded-xl flex items-center justify-center transition-colors ${
                             isSelected
                               ? "bg-cyan-500 text-black shadow-md"
                               : "bg-slate-200 dark:bg-black/40 text-slate-600 dark:text-slate-300"
                           }`}
                         >
-                          <Icon size={24} className={isSelected ? "text-black" : ev.accent} />
+                          <Icon className={`w-4 h-4 md:w-6 md:h-6 ${isSelected ? "text-black" : ev.accent}`} />
                         </div>
-                        <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300 font-bold">
+                        <span className="hidden md:inline-block text-[10px] font-mono uppercase px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300 font-bold">
                           Max {ev.maxMembers} Members
                         </span>
                       </div>
 
-                      <div className="mt-4">
-                        <span className="text-[10px] font-mono tracking-wider uppercase text-cyan-600 dark:text-cyan-400 font-bold block mb-1">
+                      <div className="md:mt-4">
+                        <span className="hidden md:block text-[10px] font-mono tracking-wider uppercase text-cyan-600 dark:text-cyan-400 font-bold mb-1">
                           {ev.badge}
                         </span>
-                        <h4 className="text-lg font-black uppercase tracking-tight text-slate-900 dark:text-white">
+                        <h4 className="text-[11px] leading-tight md:text-lg md:leading-normal font-black uppercase tracking-tight text-slate-900 dark:text-white">
                           {ev.title}{" "}
                           {ev.subtitle && (
-                            <span className="block text-xs font-bold text-pink-500 dark:text-pink-400 normal-case">
+                            <span className="hidden md:block text-xs font-bold text-pink-500 dark:text-pink-400 normal-case">
                               {ev.subtitle}
                             </span>
                           )}
                         </h4>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{ev.tagline}</p>
+                        <p className="hidden md:block text-xs text-slate-500 dark:text-slate-400 mt-1">{ev.tagline}</p>
                       </div>
 
                       {isSelected && (
-                        <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
+                        <div className="hidden md:block absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
                       )}
                     </button>
                   );
                 })}
               </div>
+
+              {/* Mobile summary of the selected arena */}
+              <p className="md:hidden text-[11px] font-mono text-slate-600 dark:text-slate-400 leading-relaxed">
+                <span className="font-bold text-slate-800 dark:text-slate-200">{currentEvent.title}:</span>{" "}
+                {currentEvent.tagline}.
+                {currentEvent.subtitle && (
+                  <span className="font-bold text-pink-500 dark:text-pink-400"> {currentEvent.subtitle}</span>
+                )}{" "}
+                Max {currentEvent.maxMembers} members per team.
+              </p>
             </div>
 
             {/* 2. TEAM SIZE & TEAM NAME */}
