@@ -102,7 +102,7 @@ const Technovision = () => {
             title: 'Model Presentation',
             icon: <Lightbulb size={32} />,
             banner: bannerModel,
-            registrationLink: 'https://unstop.com/hackathons/flux-hard-wired-10-showcase-samrat-ashok-technological-institute-sati-vidisha-1641988',
+            registrationLink: '/events/technovision-2026/register?competition=model-presentation',
             description: "An innovation-driven technical event where participants present their hardware robots, kits, and working models. The event focuses on structured presentation, technical explanation, and critical evaluation.",
             rules: [
                 "The project must be hardware-based (working model only) or science-based.",
@@ -118,36 +118,34 @@ const Technovision = () => {
                 "Participation Certificates for all"
             ],
             timeline: [
-                { time: "Registration Deadline", event: "18 Feb 2026" },
-                { time: "Presentation", event: "19 Feb 2026" },
-                // { time: "Presentation", event: "Day 1" }
+                { time: "Registration Deadline", event: "1 Nov 2026" },
+                { time: "Presentation Day", event: "2 Nov 2026" }
             ]
         },
         ropeway: {
             id: 'ropeway',
-            title: 'Ropeway Racing',
-            icon: <CableCar size={32} />,
+            title: 'Walking Bot (Strictly No Wheels)',
+            icon: <Bot size={32} />,
             banner: bannerRopeway,
-            registrationLink: 'https://unstop.com/hackathons/ropeway-racing-samrat-ashok-technological-institute-sati-vidisha-1640929?lb=wr0VBQwi',
-            description: "A hardware-based robotics competition where contestants will be tasked with designing and building robots capable of effectively moving across a slackline/ropeway. Teams will compete against each other in a round-robin format.",
+            registrationLink: '/events/technovision-2026/register?competition=robo-obstacle-challenge',
+            description: "Obstacle sprint for custom robots built strictly without wheels, using legged linkages or crawlers.",
             rules: [
-                "The bot must be lightweight (under 1 kilogram).",
-                "The robot must be capable of moving effectively across the ropeway/slackline.",
-                "The bot may be based on a fun or entertaining theme.",
-                "Design must comply with all safety and hardware constraints.",
+                "NO wheels or circular rolling elements for movement.",
+                "Allowed: Theo Jansen/Klann linkages, walkers, inchworms, crawlers, sliding linkages.",
+                "Bot must cross the multi-terrain obstacle track in minimum time. Power supply up to 12V DC.",
+                "Team size: 2 to 4 members.",
+                "All bots must be completed by 30 October. Screening round on 31 October."
             ],
             prizes: [
-                // "Winner: Exciting Cash Prizes & Certificates",
-                "Top-3 Teams: Certificates & Goodies",
-                "Participation Certificates for all"
+                "Fastest Bot Winner: Trophy, Goodies & Certificate",
+                "Innovation in Locomotion Award",
+                "Participation Certificates for all builders"
             ],
-            // pdfLink: '/events/technovision_2026/ropeway_racing_rules.pdf',
             pdfLink: '/events/technovision_2026/robo_walk_rules.pdf',
             timeline: [
-                { time: "Registration Deadline", event: "18 Feb 2026" },
-                { time: "Round-Robin Matches", event: "19 Feb 2026" },
-                // { time: "Round-Robin Matches", event: "Day 1" },
-                // { time: "Finals", event: "Day 2" }
+                { time: "Registration Deadline", event: "30 Oct 2026" },
+                { time: "Screening Round (Top 15)", event: "31 Oct 2026" },
+                { time: "Obstacle Sprint (10:30 AM)", event: "02 Nov 2026" }
             ]
         },
         robo: {
@@ -155,7 +153,7 @@ const Technovision = () => {
             title: 'Robo Rumble',
             icon: <img src={roboIcon} alt="Robo Rumble" className="w-full h-full object-cover rounded-full" />,
             banner: bannerRobo,
-            registrationLink: 'https://unstop.com/p/roborumble-samrat-ashok-technological-institute-1641998',
+            registrationLink: '/events/technovision-2026/register?competition=robo-rumble',
             description: "An intensive hardware-focused competition where students create robots to navigate varying terrains and specialized hurdles. The competition track features unique obstacles and technical challenges.",
             rules: [
                 "Weight of the bot should not exceed 1.5 kg. The bot must be able to fit in a maximum dimension of length 20cm x breadth 20cm x height 20cm. 0% error for each dimension will not be tolerated.",
@@ -165,16 +163,12 @@ const Technovision = () => {
                 "Winner: Certificates & Special Gifts",
                 "Participation Certificates for all"
             ],
-            // pdfLink: '/events/technovision_2026/robo_rumble_rules.pdf',
             pdfLink: '/events/technovision_2026/robo_rumble_rules.pdf',
             timeline: [
-                { time: "Registration Deadline", event: "18 Feb 2026" },
-                { time: "Event Day", event: "20 Feb 2026" },
-                // { time: "Inspection", event: "Day 1 Morning" },
-                // { time: "Rounds", event: "Day 1 Afternoon" }
+                { time: "Registration Deadline", event: "1 Nov 2026" },
+                { time: "Event Day", event: "3 Nov 2026" }
             ]
-        },
-
+        }
     };
 
     const currentEvent = activeTab ? events[activeTab] : null;
@@ -239,8 +233,8 @@ const Technovision = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="flex items-center justify-center gap-2 mb-6"
                     >
-                        <span className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
-                        <span className="text-cyan-600 dark:text-cyan-500 font-mono text-sm tracking-[0.2em] uppercase">Registrations Closed</span>
+                        <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_#10b981]" />
+                        <span className="text-emerald-600 dark:text-emerald-400 font-mono text-sm tracking-[0.2em] uppercase font-bold">Registrations Open</span>
                     </motion.div>
                     <div className="max-w-7xl mx-auto text-center space-y-8">
                         <motion.div
@@ -533,11 +527,9 @@ const Technovision = () => {
                                     <div className="flex flex-wrap gap-4 border-b border-slate-200 dark:border-white/10 pb-8">
                                         <a
                                             href={currentEvent.registrationLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-2 bg-cyan-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-cyan-500 transition-all uppercase tracking-wider"
+                                            className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3.5 rounded-xl font-bold hover:from-cyan-400 hover:to-blue-500 transition-all uppercase tracking-wider shadow-lg shadow-cyan-500/25"
                                         >
-                                            Registration Closed <ExternalLink size={18} />
+                                            Register Now <ExternalLink size={18} />
                                         </a>
 
 

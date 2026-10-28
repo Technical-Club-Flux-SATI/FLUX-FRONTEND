@@ -21,7 +21,9 @@ const loadEnv = () => {
           const key = trimmed.slice(0, eqIdx).trim();
           const val = trimmed.slice(eqIdx + 1).trim().replace(/^["']|["']$/g, '');
           process.env[key] = val;
+        }
       }
+    }
   }
 };
 loadEnv();
@@ -197,6 +199,7 @@ const server = http.createServer(async (req, res) => {
 
         return sendError(res, 503, `MongoDB Atlas unavailable: ${dbErr.message || 'Failed to save registration'}`);
       }
+    }
 
     // 2. TRACK: GET /api/technovision/track/:appId
     if (pathname.startsWith('/api/technovision/track/') && req.method === 'GET') {

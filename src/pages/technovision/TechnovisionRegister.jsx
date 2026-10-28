@@ -131,8 +131,8 @@ const TechnovisionRegister = () => {
     const e = {};
     if (!selectedComp) e.selectedComp = 'Please select a competition';
     if (!projectName.trim()) e.projectName = 'Project / Robot / Model name is required';
+    if (!teamName.trim()) e.teamName = 'Team name is required';
     if (participationType === 'team') {
-      if (!teamName.trim()) e.teamName = 'Team name is required';
       const minRequiredExtra = competition ? Math.max(0, competition.minTeamSize - 1) : 1;
       if (teamMembers.filter(m => m.name.trim()).length < minRequiredExtra) {
         e.teamMembers = `At least ${competition?.minTeamSize || 2} members are required (including team leader)`;
@@ -204,7 +204,7 @@ const TechnovisionRegister = () => {
       academicYear: year,
       competitionId: selectedComp,
       participationType,
-      teamName: participationType === 'team' ? teamName.trim() : '',
+      teamName: teamName.trim(),
       teamMembers: participationType === 'team' ? teamMembers.filter(m => m.name.trim()) : [],
       projectName: projectName.trim(),
       projectDescription: projectDesc.trim(),
@@ -407,44 +407,46 @@ const TechnovisionRegister = () => {
                     )}
 
                     {/* Team Details */}
-                    {participationType === 'team' && (
-                      <div className="space-y-5 p-5 bg-slate-50 dark:bg-white/[0.02] rounded-2xl border border-slate-200 dark:border-white/5">
-                        <Field label="Team Name" error={errors.teamName} required>
-                          <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} placeholder="Your team name" className={inputCls(errors.teamName)} />
-                        </Field>
+                    <div className="space-y-5 p-5 bg-slate-50 dark:bg-white/[0.02] rounded-2xl border border-slate-200 dark:border-white/5">
+                      <Field label="Team Name" error={errors.teamName} required>
+                        <input type="text" value={teamName} onChange={e => setTeamName(e.target.value)} placeholder="Enter your team name" className={inputCls(errors.teamName)} />
+                      </Field>
 
-                        <div className="p-3 bg-cyan-500/5 rounded-xl border border-cyan-500/10">
-                          <p className="text-xs text-cyan-600 dark:text-cyan-400 font-bold">Team Leader: {fullName || 'You'} ({email || 'your email'})</p>
-                        </div>
-
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between">
-                            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">
-                              Team Members {errors.teamMembers && <span className="text-red-500 text-xs font-normal ml-2">{errors.teamMembers}</span>}
-                            </label>
-                            {teamMembers.length < maxExtraMembers && (
-                              <button type="button" onClick={addMember} className="text-cyan-500 text-xs font-bold flex items-center gap-1 hover:text-cyan-400 transition-colors">
-                                <Plus size={14} /> Add Member
-                              </button>
-                            )}
+                      {participationType === 'team' && (
+                        <div className="space-y-5">
+                          <div className="p-3 bg-cyan-500/5 rounded-xl border border-cyan-500/10">
+                            <p className="text-xs text-cyan-600 dark:text-cyan-400 font-bold">Team Leader: {fullName || 'You'} ({email || 'your email'})</p>
                           </div>
-                          {teamMembers.map((m, i) => (
-                            <div key={i} className="flex gap-3 items-start">
-                              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <input type="text" value={m.name} onChange={e => updateMember(i, 'name', e.target.value)} placeholder={`Member ${i + 2} name`} className={inputCls(false)} />
-                                <input type="tel" value={m.phone} onChange={e => updateMember(i, 'phone', e.target.value.replace(/\D/g, '').slice(0, 10))} placeholder="Phone (optional)" className={inputCls(false)} />
-                              </div>
-                              {teamMembers.length > 1 && (
-                                <button type="button" onClick={() => removeMember(i)} className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors mt-0.5">
-                                  <Trash2 size={16} />
+
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                                Team Members {errors.teamMembers && <span className="text-red-500 text-xs font-normal ml-2">{errors.teamMembers}</span>}
+                              </label>
+                              {teamMembers.length < maxExtraMembers && (
+                                <button type="button" onClick={addMember} className="text-cyan-500 text-xs font-bold flex items-center gap-1 hover:text-cyan-400 transition-colors">
+                                  <Plus size={14} /> Add Member
                                 </button>
                               )}
                             </div>
-                          ))}
-                          <p className="text-[10px] text-slate-400 font-mono">Max {maxExtraMembers} additional members • Team size: {competition?.minTeamSize}–{competition?.maxTeamSize}</p>
+                            {teamMembers.map((m, i) => (
+                              <div key={i} className="flex gap-3 items-start">
+                                <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                  <input type="text" value={m.name} onChange={e => updateMember(i, 'name', e.target.value)} placeholder={`Member ${i + 2} name`} className={inputCls(false)} />
+                                  <input type="tel" value={m.phone} onChange={e => updateMember(i, 'phone', e.target.value.replace(/\D/g, '').slice(0, 10))} placeholder="Phone (optional)" className={inputCls(false)} />
+                                </div>
+                                {teamMembers.length > 1 && (
+                                  <button type="button" onClick={() => removeMember(i)} className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors mt-0.5">
+                                    <Trash2 size={16} />
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                            <p className="text-[10px] text-slate-400 font-mono">Max {maxExtraMembers} additional members • Team size: {competition?.minTeamSize}–{competition?.maxTeamSize}</p>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
 
                     {/* Project Details */}
                     <Field label="Project / Robot / Model Name" error={errors.projectName} required>
@@ -491,9 +493,7 @@ const TechnovisionRegister = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                         <div><span className="text-slate-400 text-xs">Competition:</span> <p className="font-bold">{competition?.title || selectedComp}</p></div>
                         <div><span className="text-slate-400 text-xs">Type:</span> <p className="font-bold">{competition?.participationLabels?.[participationType] || participationType}</p></div>
-                        {participationType === 'team' && (
-                          <div><span className="text-slate-400 text-xs">Team:</span> <p className="font-bold">{teamName}</p></div>
-                        )}
+                        <div><span className="text-slate-400 text-xs">Team:</span> <p className="font-bold">{teamName}</p></div>
                         <div><span className="text-slate-400 text-xs">Project Name:</span> <p className="font-bold">{projectName}</p></div>
                       </div>
                       {participationType === 'team' && teamMembers.filter(m => m.name.trim()).length > 0 && (
