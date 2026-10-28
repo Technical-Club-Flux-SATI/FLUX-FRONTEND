@@ -50,8 +50,7 @@ const TechnovisionPopup = () => {
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
             className="relative w-full max-w-4xl my-auto z-10 rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(6,182,212,0.4)] border border-cyan-500/50 bg-[#07090e]"
           >
-            <div className="pointer-events-none absolute -top-1 right-1 sm:-top-1 sm:right-1 z-20 h-16 w-16 rounded-full bg-[#07090e]/95 border border-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.25)]" />
-            <div className="pointer-events-none absolute -top-2 right-0 sm:-top-2 sm:right-0 z-20 h-20 w-20 rounded-full bg-[#07090e]" />
+            <div className="pointer-events-none absolute top-0 right-0 z-20 h-24 w-24 sm:h-28 sm:w-28 bg-[#07090e] shadow-[0_0_30px_rgba(6,182,212,0.25)] rounded-bl-3xl" />
             <button
               onClick={handleClose}
               aria-label="Close Technovision announcement"
