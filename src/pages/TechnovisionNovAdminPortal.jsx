@@ -11,8 +11,8 @@ import {
 } from 'lucide-react';
 import {
   verifyTechnovisionAdminKey,
-  fetchTechnovisionRegistrations,
-  deleteTechnovisionRegistration
+  fetchTechnovisionNovRegistrations,
+  deleteTechnovisionNovRegistration
 } from '../api';
 
 const EVENT_CONFIG = {
@@ -75,7 +75,7 @@ const TechnovisionNovAdminPortal = () => {
     if (!keyToUse) return;
     setLoading(true);
     try {
-      const res = await fetchTechnovisionRegistrations(keyToUse);
+      const res = await fetchTechnovisionNovRegistrations(keyToUse);
       if (res.data?.success) {
         setRegistrations(res.data.data || []);
         if (!silent) toast.success(`Loaded ${res.data.count || res.data.data?.length || 0} registrations`);
@@ -144,7 +144,7 @@ const TechnovisionNovAdminPortal = () => {
     }
     setDeletingId(id);
     try {
-      await deleteTechnovisionRegistration(id, activeKey);
+      await deleteTechnovisionNovRegistration(id, activeKey);
       setRegistrations((prev) => prev.filter((r) => r._id !== id));
       toast.success(`Deleted registration for ${teamName}`);
     } catch (err) {

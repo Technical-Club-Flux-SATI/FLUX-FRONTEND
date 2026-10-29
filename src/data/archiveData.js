@@ -77,8 +77,8 @@ export const ARCHIVE_DATA = {
       tag: "Mega Technical Fest",
       detailsUrl: "/events/technovision-2026",
       images: [tv26_poster],
-      terminal: "> arena: SU_Ground\n> date: 19-20_Feb_2026\n> events: Model_Presentation, Ropeway, Robo_Rumble\n> focus: Robotics_&_Innovation",
-      date: "2026-02-19",
+      terminal: "> arena: SATI_College\n> date: 2-3_Nov_2026\n> events: Model_Presentation, Ropeway, Robo_Rumble\n> focus: Robotics_&_Innovation",
+      date: "2026-11-02",
       popularity: 100,
       summary: "Technovision 2026 is the premier technical fest of SATI, featuring high-octane robotics and innovation challenges. Witness the clash of metal and code in Ropeway Racing, Robo Rumble, and Model Presentation."
     },

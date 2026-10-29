@@ -35,10 +35,7 @@ const Home = () => {
   return (
     <div className="relative min-h-dvh w-full bg-slate-50 dark:bg-[#030303] transition-colors duration-500 overflow-x-hidden font-sans selection:bg-cyan-500 selection:text-black flex flex-col pt-20 md:pt-28">
       
-      {/* FluxWave 2.0 Poster Popup - Disabled */}
-      {/* <FluxWavePopup /> */}
-
-      {/* Technovision 2026 registration popup */}
+      {/* Technovision 2026 Poster Modal Popup */}
       <TechnovisionPopup />
 
       {/* ===== INJECTED ANIMATIONS ===== */}
@@ -93,11 +90,26 @@ const Home = () => {
           {/* LEFT: TEXT CONTENT */}
           <div className="space-y-6 md:space-y-8 text-center lg:text-left z-20 order-2 lg:order-1">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 border border-cyan-500/30 bg-cyan-500/5 rounded-full backdrop-blur-md">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 animate-pulse" />
-                <span className="text-cyan-600 dark:text-cyan-400 text-[10px] font-mono tracking-widest uppercase">
-                  Neural Link Established
-                </span>
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                <Link
+                  to="/events/technovision-2026"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 border border-cyan-400/50 bg-gradient-to-r from-blue-600/20 via-cyan-500/20 to-purple-600/20 rounded-full backdrop-blur-md hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.35)] transition-all group cursor-pointer"
+                >
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                  </span>
+                  <span className="text-cyan-600 dark:text-cyan-400 font-mono text-[10px] sm:text-[11px] font-bold tracking-wider uppercase group-hover:text-cyan-300">
+                    Technovision 2026 Live &rarr;
+                  </span>
+                </Link>
+
+                <div className="inline-flex items-center gap-2 px-3 py-1 border border-cyan-500/30 bg-cyan-500/5 rounded-full backdrop-blur-md">
+                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 animate-pulse" />
+                  <span className="text-cyan-600 dark:text-cyan-400 text-[10px] font-mono tracking-widest uppercase">
+                    Neural Link Established
+                  </span>
+                </div>
               </div>
 
               <p className="tagline-anim text-cyan-600 dark:text-cyan-500/80 font-mono text-[10px] sm:text-xs tracking-[0.3em] uppercase font-bold">

@@ -53,7 +53,23 @@ Ensure you have the following installed:
     npm install
     ```
 
-3.  **Start the development server**
+3.  **Environment Configuration**
+    Copy `.env.example` to `.env`:
+    ```bash
+    cp .env.example .env
+    ```
+    Set your MongoDB Atlas connection string in `.env`:
+    ```env
+    MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/flux_db?retryWrites=true&w=majority
+    ```
+
+4.  **Start the Backend Server (Technovision & Registration APIs)**
+    ```bash
+    node technovision/server.cjs
+    ```
+    The API runs at `http://localhost:5000/api`.
+
+5.  **Start the Frontend Development Server**
     ```bash
     npm run dev
     ```

@@ -95,6 +95,29 @@ export const updateFluxWavePublicStatus = (id, status) =>
 export const checkInFluxWavePublicTeam = (id) =>
   API.patch(`/fluxwave/public-admin/${id}/checkin`, {}, eventKeyHeader());
 
+// --- TECHNOVISION 2026 ENDPOINTS ---
+export const registerTechnovision = (formData) => API.post('/technovision/register', formData);
+export const trackTechnovisionApp = (appId) => API.get(`/technovision/track/${encodeURIComponent(appId)}`);
+export const fetchTechnovisionCompetitions = () => API.get('/technovision/competitions');
+
+// Technovision admin (key-gated, like existing event-admin pattern)
+const technovisionKeyHeader = () => ({
+  headers: { 'x-technovision-key': sessionStorage.getItem('technovisionAdminKey') || '' },
+});
+
+export const verifyTechnovisionKey = (key) =>
+  API.post('/technovision/admin/verify-key', { key }, { headers: { 'x-technovision-key': key } });
+export const fetchTechnovisionRegistrations = () =>
+  API.get('/technovision/admin/registrations', technovisionKeyHeader());
+export const updateTechnovisionStatus = (id, status, note) =>
+  API.patch(`/technovision/admin/${id}/status`, { status, note }, technovisionKeyHeader());
+export const deleteTechnovisionRegistration = (id) =>
+  API.delete(`/technovision/admin/${id}`, technovisionKeyHeader());
+export const fetchTechnovisionStats = () =>
+  API.get('/technovision/admin/stats', technovisionKeyHeader());
+export const exportTechnovisionCSV = () =>
+  API.get('/technovision/admin/export', { ...technovisionKeyHeader(), responseType: 'blob' });
+
 // --- FAQ ENDPOINTS ---
 export const fetchFAQs = () => API.get('/faq');
 export const createFAQ = (faqData) => API.post('/faq', faqData);
@@ -120,9 +143,9 @@ export const registerTechnovisionNov = async (formData) => {
 };
 export const verifyTechnovisionAdminKey = (key) =>
   API.post('/technovision-nov/verify-key', {}, { headers: { 'x-technovision-key': key } });
-export const fetchTechnovisionRegistrations = (key) =>
+export const fetchTechnovisionNovRegistrations = (key) =>
   API.get('/technovision-nov/registrations', { headers: { 'x-technovision-key': key } });
-export const deleteTechnovisionRegistration = (id, key) =>
+export const deleteTechnovisionNovRegistration = (id, key) =>
   API.delete(`/technovision-nov/registrations/${id}`, { headers: { 'x-technovision-key': key } });
 
 // --- SYSTEM HELPERS ---

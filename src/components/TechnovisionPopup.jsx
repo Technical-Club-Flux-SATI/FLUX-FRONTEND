@@ -1,86 +1,97 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, ArrowRight } from 'lucide-react';
+import { X, ArrowRight, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import posterImage from '../assets/events/technovision_nov2026/poster.jpeg';
+import technovisionPoster from '../assets/events/technovision_2026/technovision_modal_poster.png';
 
 const TechnovisionPopup = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const navigate = useNavigate();
 
-  // Show the popup shortly after the home page loads
-  useEffect(() => {
-    const openTimer = setTimeout(() => setIsOpen(true), 1500);
-    return () => clearTimeout(openTimer);
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
   }, []);
 
-  // Allow Esc to close while open
-  useEffect(() => {
-    if (!isOpen) return undefined;
-    const onKey = (e) => e.key === 'Escape' && setIsOpen(false);
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [isOpen]);
-
-  const handleClose = () => setIsOpen(false);
-
-  const handleRegister = () => {
+  const handleNavigate = useCallback(() => {
     setIsOpen(false);
-    navigate('/events/technovision-nov-2026');
-  };
+    navigate('/events/technovision-2026');
+  }, [navigate]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && isOpen) handleClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, handleClose]);
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 pt-20 sm:pt-20">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Technovision 2026 Announcement"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+        >
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={handleClose}
-            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 bg-black/85 backdrop-blur-md"
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            role="dialog"
-            aria-label="Technovision 2026 registration"
-            className="relative w-[92vw] max-w-[420px] max-h-[92vh] flex flex-col bg-[#0b0f19] rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(6,182,212,0.45)] border border-cyan-500/40 z-10"
+            exit={{ opacity: 0, scale: 0.9, y: 15 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 320 }}
+            className="relative w-full max-w-4xl my-auto z-10 rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(6,182,212,0.4)] border border-cyan-500/50 bg-[#07090e]"
           >
+            <div className="pointer-events-none absolute top-0 right-0 z-20 h-24 w-24 sm:h-28 sm:w-28 bg-[#07090e] shadow-[0_0_30px_rgba(6,182,212,0.25)] rounded-bl-3xl" />
             <button
               onClick={handleClose}
-              aria-label="Close popup"
-              className="absolute top-3 right-3 z-20 p-2 bg-black/60 hover:bg-black/90 rounded-full text-white/80 hover:text-white transition-colors backdrop-blur-md"
+              aria-label="Close Technovision announcement"
+              className="absolute top-3 right-3 sm:top-5 sm:right-5 z-30 p-2 sm:p-2.5 bg-black/80 hover:bg-red-500/30 text-white/90 hover:text-white rounded-full border border-white/30 hover:border-red-400 transition-all backdrop-blur-md shadow-xl group focus:outline-none focus:ring-2 focus:ring-red-400 cursor-pointer"
             >
-              <X size={22} />
+              <X size={22} className="sm:w-6 sm:h-6 group-hover:rotate-90 transition-transform duration-200" />
             </button>
 
             <div
-              className="relative w-full min-h-0 flex-1 overflow-hidden cursor-pointer group bg-black"
-              onClick={handleRegister}
+              onClick={handleNavigate}
+              className="relative w-full cursor-pointer group select-none block overflow-hidden"
+              title="Click to explore Technovision 2026"
             >
               <img
-                src={posterImage}
-                alt="Technovision 2026 Poster"
-                className="w-full h-full max-h-[62vh] object-contain transition-transform duration-700 group-hover:scale-[1.02]"
+                src={technovisionPoster}
+                onError={(event) => {
+                  event.currentTarget.src = '/technovision_poster.png';
+                }}
+                alt="Technovision 2026 — Innovate, Build, Compete"
+                className="w-full h-auto max-h-[82vh] object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.01]"
               />
-              <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0b0f19] to-transparent pointer-events-none" />
-            </div>
 
-            <div className="p-4 sm:p-5 text-center space-y-3 border-t border-cyan-500/20">
-              <div className="flex items-center justify-center gap-2 text-cyan-400 font-mono text-[11px] sm:text-xs uppercase tracking-widest font-bold">
-                <Calendar size={14} /> Registrations Open • Last Date 30 Oct
+              <div className="absolute bottom-3 sm:bottom-6 left-0 right-0 px-4 sm:px-6 flex items-center justify-between pointer-events-none z-20">
+                <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/75 border border-cyan-500/40 text-[11px] font-mono text-cyan-400 backdrop-blur-md">
+                  <Sparkles size={12} className="animate-pulse" />
+                  <span>FLUX TECHNICAL CLUB PRESENTS</span>
+                </div>
+
+                <div className="mx-auto sm:mx-0 pointer-events-auto">
+                  <button
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleNavigate();
+                    }}
+                    className="flex items-center gap-2 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-500 hover:from-blue-500 hover:to-cyan-400 text-white font-black px-6 sm:px-8 py-3 rounded-full text-xs sm:text-sm uppercase tracking-wider shadow-[0_0_30px_rgba(6,182,212,0.7)] transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-300 cursor-pointer"
+                  >
+                    <span>Explore Technovision</span>
+                    <ArrowRight size={16} />
+                  </button>
+                </div>
               </div>
-              <button
-                onClick={handleRegister}
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-400 text-white font-black px-6 py-3 rounded-full uppercase tracking-widest text-sm shadow-lg shadow-cyan-500/30 hover:brightness-110 transition-all"
-              >
-                Register Now <ArrowRight size={16} />
-              </button>
             </div>
           </motion.div>
         </div>

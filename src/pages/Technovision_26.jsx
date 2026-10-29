@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Calendar, MapPin, MessageCircle, Info,
     ChevronDown, ChevronUp, Trophy, Clock, HelpCircle, Phone,
     Download, ExternalLink, Bot, CableCar, Presentation, Lightbulb, Mail
 } from 'lucide-react';
+
+// Cyber Ronin Assets
+const CYBER_RONIN_BASE = 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260831_115955_2a9adb39-5e9b-4ced-96e2-6900eabe3de9.png&w=1920&q=85';
+const CYBER_RONIN_REVEAL = 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260831_123709_183f0065-efb2-4bb2-a849-13aaa5af2f3f.png&w=1920&q=85';
 
 
 // Assets
@@ -98,7 +102,7 @@ const Technovision = () => {
             title: 'Model Presentation',
             icon: <Lightbulb size={32} />,
             banner: bannerModel,
-            registrationLink: 'https://unstop.com/hackathons/flux-hard-wired-10-showcase-samrat-ashok-technological-institute-sati-vidisha-1641988',
+            registrationLink: '/events/technovision-2026/register?competition=model-presentation',
             description: "An innovation-driven technical event where participants present their hardware robots, kits, and working models. The event focuses on structured presentation, technical explanation, and critical evaluation.",
             rules: [
                 "The project must be hardware-based (working model only) or science-based.",
@@ -114,36 +118,34 @@ const Technovision = () => {
                 "Participation Certificates for all"
             ],
             timeline: [
-                { time: "Registration Deadline", event: "18 Feb 2026" },
-                { time: "Presentation", event: "19 Feb 2026" },
-                // { time: "Presentation", event: "Day 1" }
+                { time: "Registration Deadline", event: "1 Nov 2026" },
+                { time: "Presentation Day", event: "2 Nov 2026" }
             ]
         },
         ropeway: {
             id: 'ropeway',
-            title: 'Ropeway Racing',
-            icon: <CableCar size={32} />,
+            title: 'Walking Bot (Strictly No Wheels)',
+            icon: <Bot size={32} />,
             banner: bannerRopeway,
-            registrationLink: 'https://unstop.com/hackathons/ropeway-racing-samrat-ashok-technological-institute-sati-vidisha-1640929?lb=wr0VBQwi',
-            description: "A hardware-based robotics competition where contestants will be tasked with designing and building robots capable of effectively moving across a slackline/ropeway. Teams will compete against each other in a round-robin format.",
+            registrationLink: '/events/technovision-2026/register?competition=robo-obstacle-challenge',
+            description: "Obstacle sprint for custom robots built strictly without wheels, using legged linkages or crawlers.",
             rules: [
-                "The bot must be lightweight (under 1 kilogram).",
-                "The robot must be capable of moving effectively across the ropeway/slackline.",
-                "The bot may be based on a fun or entertaining theme.",
-                "Design must comply with all safety and hardware constraints.",
+                "NO wheels or circular rolling elements for movement.",
+                "Allowed: Theo Jansen/Klann linkages, walkers, inchworms, crawlers, sliding linkages.",
+                "Bot must cross the multi-terrain obstacle track in minimum time. Power supply up to 12V DC.",
+                "Team size: 2 to 4 members.",
+                "All bots must be completed by 30 October. Screening round on 31 October."
             ],
             prizes: [
-                // "Winner: Exciting Cash Prizes & Certificates",
-                "Top-3 Teams: Certificates & Goodies",
-                "Participation Certificates for all"
+                "Fastest Bot Winner: Trophy, Goodies & Certificate",
+                "Innovation in Locomotion Award",
+                "Participation Certificates for all builders"
             ],
-            // pdfLink: '/events/technovision_2026/ropeway_racing_rules.pdf',
-            pdfLink: 'https://drive.google.com/file/d/1r22pR1QgCU6f3B6aAXQnikHjjpfpGrlK/view?usp=drive_link',
+            pdfLink: '/events/technovision_2026/robo_walk_rules.pdf',
             timeline: [
-                { time: "Registration Deadline", event: "18 Feb 2026" },
-                { time: "Round-Robin Matches", event: "19 Feb 2026" },
-                // { time: "Round-Robin Matches", event: "Day 1" },
-                // { time: "Finals", event: "Day 2" }
+                { time: "Registration Deadline", event: "30 Oct 2026" },
+                { time: "Screening Round (Top 15)", event: "31 Oct 2026" },
+                { time: "Obstacle Sprint (10:30 AM)", event: "02 Nov 2026" }
             ]
         },
         robo: {
@@ -151,7 +153,7 @@ const Technovision = () => {
             title: 'Robo Rumble',
             icon: <img src={roboIcon} alt="Robo Rumble" className="w-full h-full object-cover rounded-full" />,
             banner: bannerRobo,
-            registrationLink: 'https://unstop.com/p/roborumble-samrat-ashok-technological-institute-1641998',
+            registrationLink: '/events/technovision-2026/register?competition=robo-rumble',
             description: "An intensive hardware-focused competition where students create robots to navigate varying terrains and specialized hurdles. The competition track features unique obstacles and technical challenges.",
             rules: [
                 "Weight of the bot should not exceed 1.5 kg. The bot must be able to fit in a maximum dimension of length 20cm x breadth 20cm x height 20cm. 0% error for each dimension will not be tolerated.",
@@ -161,26 +163,65 @@ const Technovision = () => {
                 "Winner: Certificates & Special Gifts",
                 "Participation Certificates for all"
             ],
-            // pdfLink: '/events/technovision_2026/robo_rumble_rules.pdf',
-            pdfLink: 'https://drive.google.com/file/d/1Kw831e0SAWjpQ04rpf5QvmC4bO63SlIF/view?usp=drive_link',
+            pdfLink: '/events/technovision_2026/robo_rumble_rules.pdf',
             timeline: [
-                { time: "Registration Deadline", event: "18 Feb 2026" },
-                { time: "Event Day", event: "20 Feb 2026" },
-                // { time: "Inspection", event: "Day 1 Morning" },
-                // { time: "Rounds", event: "Day 1 Afternoon" }
+                { time: "Registration Deadline", event: "1 Nov 2026" },
+                { time: "Event Day", event: "3 Nov 2026" }
             ]
-        },
-
+        }
     };
 
     const currentEvent = activeTab ? events[activeTab] : null;
 
-    return (
-        <div className="bg-slate-50 dark:bg-[#050505] min-h-screen text-slate-900 dark:text-white transition-colors duration-300 font-sans selection:bg-cyan-500/30">
+    useEffect(() => {
+        const updateSpotlight = (clientX, clientY) => {
+            const el = document.getElementById('techno26-reveal-bg');
+            if (!el) return;
+            const rect = el.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            const w = window.innerWidth;
+            const radius = w < 480 ? 140 : w < 768 ? 200 : 280;
+            const maskVal = `radial-gradient(circle ${radius}px at ${x}px ${y}px, #fff 0%, #fff 40%, rgba(255,255,255,0.75) 60%, rgba(255,255,255,0.4) 75%, rgba(255,255,255,0.12) 88%, transparent 100%)`;
+            el.style.webkitMaskImage = maskVal;
+            el.style.maskImage = maskVal;
+        };
 
-            {/* Background Grid */}
-            <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]" />
+        const handleMouseMove = (e) => updateSpotlight(e.clientX, e.clientY);
+        const handleTouchMove = (e) => {
+            if (e.touches && e.touches.length > 0) {
+                updateSpotlight(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('touchmove', handleTouchMove, { passive: true });
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('touchmove', handleTouchMove);
+        };
+    }, []);
+
+    return (
+        <div className="relative min-h-screen bg-[#070504] text-white transition-colors duration-300 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
+
+            {/* ───── CYBER RONIN INTERACTIVE BACKGROUND ───── */}
+            <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
+                <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out scale-105 opacity-60 dark:opacity-40"
+                    style={{ backgroundImage: `url('${CYBER_RONIN_BASE}')` }}
+                />
+                <div
+                    id="techno26-reveal-bg"
+                    className="absolute inset-0 bg-cover bg-center opacity-90 pointer-events-none transition-opacity duration-300"
+                    style={{
+                        backgroundImage: `url('${CYBER_RONIN_REVEAL}')`,
+                        WebkitMaskImage: 'radial-gradient(circle 0px at -999px -999px, #fff, transparent)',
+                        maskImage: 'radial-gradient(circle 0px at -999px -999px, #fff, transparent)',
+                    }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#C45A18]/30 via-black/40 to-[#070504] pointer-events-none" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#06b6d408_1px,transparent_1px),linear-gradient(to_bottom,#06b6d408_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
             </div>
 
             <div className="relative z-10">
@@ -192,8 +233,8 @@ const Technovision = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="flex items-center justify-center gap-2 mb-6"
                     >
-                        <span className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
-                        <span className="text-cyan-600 dark:text-cyan-500 font-mono text-sm tracking-[0.2em] uppercase">Registrations Closed</span>
+                        <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_#10b981]" />
+                        <span className="text-emerald-600 dark:text-emerald-400 font-mono text-sm tracking-[0.2em] uppercase font-bold">Registrations Open</span>
                     </motion.div>
                     <div className="max-w-7xl mx-auto text-center space-y-8">
                         <motion.div
@@ -202,7 +243,7 @@ const Technovision = () => {
                             className="inline-flex items-center gap-2 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 px-4 py-2 rounded-full border border-cyan-500/20"
                         >
                             <Calendar size={16} />
-                            <span className="text-sm font-bold uppercase tracking-wider">19 - 20 Feb 2026</span>
+                            <span className="text-sm font-bold uppercase tracking-wider">2 - 3 November 2026</span>
                             <span className="mx-2 text-cyan-500/30">|</span>
                             <a
                                 href="https://maps.app.goo.gl/fTdZm1HhBHnK9JYEA"
@@ -211,7 +252,7 @@ const Technovision = () => {
                                 className="inline-flex items-center gap-1 hover:text-cyan-500 transition-colors"
                             >
                                 <MapPin size={16} />
-                                <span className="text-sm font-bold uppercase tracking-wider">SU Ground</span>
+                                <span className="text-sm font-bold uppercase tracking-wider">SATI College</span>
                             </a>
                         </motion.div>
 
@@ -377,7 +418,7 @@ const Technovision = () => {
                                     <ExternalLink size={20} /> Google Form Registration
                                 </a> */}
                                 <a
-                                    href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc?mode=gi_t"
+                                    href="https://chat.whatsapp.com/ITmlgvbmiM7Bu8GGWddYxc"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="flex items-center gap-2 bg-[#25D366] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#20bd5a] transition-colors shadow-lg shadow-green-500/20"
@@ -388,8 +429,7 @@ const Technovision = () => {
 
 
                                 <a
-                                    href="https://drive.google.com/file/d/1Ee689teCqFrLVJWEA8Y7S83k3lH9xODN/view?usp=drive_link"
-                                    // href="/events/technovision_2026/whole_rules_book.pdf"
+                                    href="/events/technovision_2026/whole_rules_book.pdf"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="flex items-center gap-2 bg-slate-800 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-700 transition-colors shadow-lg shadow-slate-900/20 border border-slate-700"
@@ -487,11 +527,9 @@ const Technovision = () => {
                                     <div className="flex flex-wrap gap-4 border-b border-slate-200 dark:border-white/10 pb-8">
                                         <a
                                             href={currentEvent.registrationLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-2 bg-cyan-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-cyan-500 transition-all uppercase tracking-wider"
+                                            className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3.5 rounded-xl font-bold hover:from-cyan-400 hover:to-blue-500 transition-all uppercase tracking-wider shadow-lg shadow-cyan-500/25"
                                         >
-                                            Registration Closed <ExternalLink size={18} />
+                                            Register Now <ExternalLink size={18} />
                                         </a>
 
 
@@ -613,18 +651,22 @@ const Technovision = () => {
                             </a>
                         </div>
 
-                        <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mt-2">
-                            {/* <a href="tel:+919179736005" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
-                            <Phone size={18} />
-                            <span>Himanshu Deshmukh - 9179736005</span>
-                        </a> */}
-                            <a href="tel:+916268459415" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-2">
+                            <a href="tel:+917828879681" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
                                 <Phone size={18} />
-                                <span>Shreya Chahar - 6268459415</span>
+                                <span>Pramit Singh - (78288 79681)</span>
                             </a>
-                            <a href="tel:+919691347076" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                            <a href="tel:+919302276804" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
                                 <Phone size={18} />
-                                <span>Nitil Singh - 9691347076</span>
+                                <span>Devansh Patel - (93022 76804)</span>
+                            </a>
+                            <a href="tel:+919238138023" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                                <Phone size={18} />
+                                <span>Dhananjay Rawat - (92381 38023)</span>
+                            </a>
+                            <a href="tel:+917805823575" className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 dark:text-slate-400 dark:hover:text-cyan-500 transition-colors">
+                                <Phone size={18} />
+                                <span>Anshika Shukla - (78058 23575)</span>
                             </a>
                         </div>
                     </div>
