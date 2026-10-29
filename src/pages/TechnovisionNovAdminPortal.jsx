@@ -344,6 +344,68 @@ const TechnovisionNovAdminPortal = () => {
     toast.success(`Exported ${filteredRegistrations.length} team registrations to Excel!`);
   };
 
+  // Unique candidates across ALL registrations (ignores filters), keyed by email.
+  // Leaders and team members are both included. Oldest record wins; blank
+  // fields are filled from later records of the same email.
+  const uniqueCandidates = useMemo(() => {
+    const byEmail = new Map();
+    const add = (name, email, scholarNo, year) => {
+      const key = String(email || '').trim().toLowerCase();
+      if (!key) return;
+      const clean = (v) => String(v ?? '').trim();
+      const existing = byEmail.get(key);
+      if (!existing) {
+        byEmail.set(key, { name: clean(name), email: key, scholarNo: clean(scholarNo), year: clean(year) });
+        return;
+      }
+      if (!existing.name) existing.name = clean(name);
+      if (!existing.scholarNo) existing.scholarNo = clean(scholarNo);
+      if (!existing.year) existing.year = clean(year);
+    };
+
+    [...registrations]
+      .sort((a, b) => new Date(a.createdAt || 0) - new Date(b.createdAt || 0))
+      .forEach((r) => {
+        add(r.leaderName, r.leaderEmail, r.leaderEnrollmentNo, r.leaderYear);
+        (r.teamMembers || []).forEach((m) => add(m.name, m.email, m.enrollmentNo, m.year));
+      });
+
+    return Array.from(byEmail.values());
+  }, [registrations]);
+
+  // Download unique candidates (Name, Email, Scholar No, Year) as CSV
+  const handleExportUniqueCandidates = () => {
+    if (uniqueCandidates.length === 0) {
+      toast.error('No candidates found to export.');
+      return;
+    }
+
+    const formatCell = (val) => {
+      let str = String(val ?? '');
+      // Neutralise spreadsheet formula injection from user-supplied text
+      if (/^[=+\-@\t\r]/.test(str)) str = `'${str}`;
+      return `"${str.replace(/"/g, '""')}"`;
+    };
+
+    const headers = ['Name', 'Email ID', 'Scholar Number', 'Year'];
+    const rows = uniqueCandidates.map((c) =>
+      [c.name, c.email, c.scholarNo, c.year].map(formatCell).join(',')
+    );
+
+    const csvContent = '﻿' + [headers.map(formatCell).join(','), ...rows].join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Technovision_Nov_2026_Unique_Candidates_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast.success(`Exported ${uniqueCandidates.length} unique candidates!`);
+  };
+
   // ==========================================
   // UNLOCKED SCREEN: RENDER DASHBOARD
   // ==========================================
@@ -393,6 +455,15 @@ const TechnovisionNovAdminPortal = () => {
                 title="Export current view to Excel-compatible CSV"
               >
                 <FileSpreadsheet size={15} /> Export Excel / CSV ({filteredRegistrations.length})
+              </button>
+
+              <button
+                onClick={handleExportUniqueCandidates}
+                disabled={uniqueCandidates.length === 0}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-indigo-600/25 transition-all disabled:opacity-50"
+                title="Download unique candidates (by email): Name, Email, Scholar No, Year"
+              >
+                <Users size={15} /> Unique Candidates ({uniqueCandidates.length})
               </button>
 
               <button

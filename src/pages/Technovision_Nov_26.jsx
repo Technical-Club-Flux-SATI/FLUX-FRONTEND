@@ -42,6 +42,26 @@ import TechnovisionNovRegistration from '../components/TechnovisionNovRegistrati
 const VIDEO_MP4_URL =
     "https://res.cloudinary.com/kgxykn6s/video/upload/lv_0_20261022104140.mp4";
 
+// Registration closes 30 Oct 2026, 3:00 PM IST (explicit +05:30 offset so it is
+// the same instant for every visitor regardless of their device timezone)
+const REGISTRATION_DEADLINE = "2026-10-30T15:00:00+05:30";
+const REGISTRATION_DEADLINE_MS = new Date(REGISTRATION_DEADLINE).getTime();
+
+// True once the deadline passes; flips automatically without a page reload
+const useRegistrationClosed = () => {
+    const [closed, setClosed] = useState(() => Date.now() >= REGISTRATION_DEADLINE_MS);
+
+    useEffect(() => {
+        if (closed) return undefined;
+        const interval = setInterval(() => {
+            if (Date.now() >= REGISTRATION_DEADLINE_MS) setClosed(true);
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [closed]);
+
+    return closed;
+};
+
 // Countdown Timer Component with Urgency Escalation
 const CountdownTimer = ({ targetDate }) => {
     const [timeLeft, setTimeLeft] = useState({
@@ -90,7 +110,8 @@ const CountdownTimer = ({ targetDate }) => {
     }
 
     return (
-        <div className="flex items-center justify-center gap-1.5 min-[360px]:gap-2 sm:gap-4 my-3 sm:my-4">
+        <div className="flex flex-col items-center">
+            <div className="flex items-center justify-center gap-1.5 min-[360px]:gap-2 sm:gap-4 my-3 sm:my-4">
             {[
                 { label: "DAYS", value: timeLeft.days },
                 { label: "HOURS", value: timeLeft.hours },
@@ -109,6 +130,11 @@ const CountdownTimer = ({ targetDate }) => {
                     </span>
                 </div>
             ))}
+            </div>
+            <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/40 text-amber-700 dark:text-amber-300 px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider animate-pulse">
+                <AlertTriangle size={14} className="shrink-0" />
+                <span>Registration ends 30 Oct, 3:00 PM IST. Officially closes after this.</span>
+            </div>
         </div>
     );
 };
@@ -148,6 +174,7 @@ const TechnovisionNov2026 = () => {
     const [activeTab, setActiveTab] = useState('botRacing'); // default highlights the exciting new competition
     const [showStickyBar, setShowStickyBar] = useState(false);
     const [copiedLink, setCopiedLink] = useState(false);
+    const registrationClosed = useRegistrationClosed();
     const swiperRef = useRef(null);
     const galleryWrapRef = useRef(null);
     const galleryInViewRef = useRef(false);
@@ -215,7 +242,7 @@ const TechnovisionNov2026 = () => {
                 "Participation Certificates for all attendees"
             ],
             timeline: [
-                { time: "30 Oct 2026", event: "Registration Deadline" },
+                { time: "30 Oct 2026, 3 PM IST", event: "Registration Deadline" },
                 { time: "02 Nov 2026 (10 AM - 5 PM)", event: "Event Date & Time" },
                 { time: "216 Classroom", event: "Location" }
             ]
@@ -242,7 +269,7 @@ const TechnovisionNov2026 = () => {
                 "Participation Certificates for all teams"
             ],
             timeline: [
-                { time: "30 Oct 2026", event: "Registration Deadline" },
+                { time: "30 Oct 2026, 3 PM IST", event: "Registration Deadline" },
                 { time: "03 Nov 2026 (10 AM - 2 PM)", event: "Event Date & Time" },
                 { time: "IT Garden", event: "Location" }
             ]
@@ -271,7 +298,7 @@ const TechnovisionNov2026 = () => {
                 "Participation Certificates for all builders"
             ],
             timeline: [
-                { time: "30 Oct 2026", event: "Registration Deadline" },
+                { time: "30 Oct 2026, 3 PM IST", event: "Registration Deadline" },
                 { time: "02 Nov 2026 (2:30 PM - 5 PM)", event: "Event Date & Time" },
                 { time: "IT Garden", event: "Location" }
             ]
@@ -385,7 +412,7 @@ const TechnovisionNov2026 = () => {
 💡 Working Model Presentation
 🏆 Trophies, Goodies & Direct Certificates for All!
 
-Register your team now before slots close (Deadline: 30 Oct):
+Register your team now before slots close (Deadline: 30 Oct, 3 PM IST):
 ${window.location.href}`;
         window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
     };
@@ -472,7 +499,7 @@ ${window.location.href}`;
                     >
                         <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping" />
                         <span className="text-emerald-600 dark:text-emerald-400 font-mono text-[10px] min-[360px]:text-xs sm:text-sm tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold text-center">
-                            Registrations Live Now • Open for All Colleges
+                            {registrationClosed ? 'Registrations Closed' : 'Registrations Live Now • Open for All Colleges'}
                         </span>
                     </motion.div>
 
@@ -541,7 +568,7 @@ ${window.location.href}`;
                             <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-cyan-400/90 block mb-1">
                                 ⏳ Official Registration Closes In:
                             </span>
-                            <CountdownTimer targetDate="2026-10-30T23:59:59" />
+                            <CountdownTimer targetDate={REGISTRATION_DEADLINE} />
                         </div>
 
                         {/* Hero Banner Image with Cyber Tech Frame */}
@@ -1005,10 +1032,22 @@ ${window.location.href}`;
 
                 {/* ================= UNIFIED REGISTRATION SECTION ================= */}
                 <section className="max-w-5xl mx-auto px-3 sm:px-6 py-10 sm:py-16 border-t border-slate-200 dark:border-white/10">
-                    <TechnovisionNovRegistration
-                        preselectedEvent={activeTab}
-                        onEventChange={(newEventId) => setActiveTab(newEventId)}
-                    />
+                    {registrationClosed ? (
+                        <div id="registration-portal" className="text-center p-6 sm:p-10 rounded-2xl sm:rounded-3xl bg-red-50 dark:bg-red-950/30 border-2 border-red-400 dark:border-red-500/50 space-y-2">
+                            <AlertTriangle size={32} className="mx-auto text-red-600 dark:text-red-400" />
+                            <h2 className="text-2xl sm:text-4xl font-black italic uppercase tracking-tight font-['Russo_One',sans-serif] text-red-700 dark:text-red-300">
+                                Registration Closed
+                            </h2>
+                            <p className="text-xs sm:text-sm text-red-900 dark:text-red-100 font-medium">
+                                Registration officially closed on 30 Oct 2026, 3:00 PM IST. Thank you for your interest in Technovision '26.
+                            </p>
+                        </div>
+                    ) : (
+                        <TechnovisionNovRegistration
+                            preselectedEvent={activeTab}
+                            onEventChange={(newEventId) => setActiveTab(newEventId)}
+                        />
+                    )}
                 </section>
 
                 {/* ================= FAQS ================= */}
