@@ -73,7 +73,7 @@ const TechnovisionPopup = () => {
 
             <div className="p-4 sm:p-5 text-center space-y-3 border-t border-cyan-500/20">
               <div className="flex items-center justify-center gap-2 text-cyan-400 font-mono text-[11px] sm:text-xs uppercase tracking-widest font-bold">
-                <Calendar size={14} /> Registrations Open • Last Date 30 Oct
+                <Calendar size={14} /> Registrations Open • Last Date 31 Oct
               </div>
               <button
                 onClick={handleRegister}

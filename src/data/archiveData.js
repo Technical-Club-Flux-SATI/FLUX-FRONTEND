@@ -27,10 +27,10 @@ export const ARCHIVE_DATA = {
       tag: "Mega Technical Fest",
       detailsUrl: "/events/technovision-nov-2026",
       images: [technovision_nov26_poster],
-      terminal: "> registration_deadline: 30_Oct_2026\n> date: 02-03_Nov_2026\n> events: Model_Presentation, Robo_Rumble, Walking_Bot\n> focus: Robotics_&_Innovation",
+      terminal: "> registration_deadline: 31_Oct_2026\n> date: 02-03_Nov_2026\n> events: Model_Presentation, Robo_Rumble, Walking_Bot\n> focus: Robotics_&_Innovation",
       date: "2026-10-22",
       popularity: 110,
-      summary: "Technovision returns this November with three premier competitions: Model Presentation, Robo Rumble, and the all-new Walking Bot challenge. Open to students of all colleges. Register by 30 October."
+      summary: "Technovision returns this November with three premier competitions: Model Presentation, Robo Rumble, and the all-new Walking Bot challenge. Open to students of all colleges. Register by 31 October."
     },
     {
       title: "FLUX RECRUITMENT 2026",

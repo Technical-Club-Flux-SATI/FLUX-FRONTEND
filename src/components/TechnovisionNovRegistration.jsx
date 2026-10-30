@@ -23,12 +23,60 @@ import {
   Share2,
   AlertTriangle,
   Flame,
-  ArrowRight
+  ArrowRight,
+  ExternalLink,
+  ChevronDown
 } from "lucide-react";
 import jsPDF from "jspdf";
 import {
   registerTechnovisionNov,
 } from "../api";
+
+const NDLI_PASSKEY = "effb81bc-d30a-431a-9d7a-1882250e6dd9";
+const NDLI_LINKS = [
+  { label: "Tutorial Video", href: "https://drive.google.com/file/d/1RsVFgZ03bzlV5KavR_EMHlzpEPvs4osF/view?usp=drivesdk" },
+  { label: "NDLI Website", href: "https://www.ndl.gov.in" },
+  { label: "NDLI Club Portal", href: "https://club.ndl.iitkgp.ac.in/club-home" },
+];
+
+const NdliPasskey = () => {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(NDLI_PASSKEY);
+    } catch {
+      const t = document.createElement("textarea");
+      t.value = NDLI_PASSKEY;
+      document.body.appendChild(t);
+      t.select();
+      document.execCommand("copy");
+      document.body.removeChild(t);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <details className="group pt-1">
+      <summary className="cursor-pointer list-none inline-flex items-center gap-1.5 text-xs font-black text-amber-900 dark:text-amber-200 select-none [&::-webkit-details-marker]:hidden">
+        Show NDLI Passkey
+        <ChevronDown size={14} className="transition-transform group-open:rotate-180" />
+      </summary>
+      <div className="mt-2 flex items-center gap-2 p-2 rounded-lg bg-white/70 dark:bg-black/30 border border-amber-500/60">
+        <code className="flex-1 min-w-0 text-[11px] sm:text-xs font-mono font-bold text-amber-950 dark:text-amber-100 break-all">
+          {NDLI_PASSKEY}
+        </code>
+        <button
+          type="button"
+          onClick={copy}
+          className="shrink-0 inline-flex items-center gap-1 px-2.5 min-h-[32px] rounded-md bg-amber-500 hover:bg-amber-600 text-white text-xs font-black transition-colors"
+        >
+          {copied ? <Check size={12} /> : <Copy size={12} />}
+          {copied ? "Copied" : "Copy"}
+        </button>
+      </div>
+    </details>
+  );
+};
 
 const EVENTS = [
   {
@@ -1188,6 +1236,20 @@ Please find the registration pass (PDF) attached.`;
                 <p className="text-xs sm:text-sm font-semibold text-amber-900 dark:text-amber-200 leading-relaxed">
                   NDLI portal registration is compulsory to receive your participation certificates.
                 </p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {NDLI_LINKS.map((l) => (
+                    <a
+                      key={l.href}
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-black tracking-wide transition-colors"
+                    >
+                      {l.label} <ExternalLink size={12} />
+                    </a>
+                  ))}
+                </div>
+                <NdliPasskey />
               </div>
             </div>
 
