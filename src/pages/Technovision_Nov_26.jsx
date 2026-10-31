@@ -42,9 +42,9 @@ import TechnovisionNovRegistration from '../components/TechnovisionNovRegistrati
 const VIDEO_MP4_URL =
     "https://res.cloudinary.com/kgxykn6s/video/upload/lv_0_20261022104140.mp4";
 
-// Registration closes 31 Oct 2026, 6:00 AM IST (explicit +05:30 offset so it is
+// Registration closes 31 Oct 2026, 11:59 PM IST (explicit +05:30 offset so it is
 // the same instant for every visitor regardless of their device timezone)
-const REGISTRATION_DEADLINE = "2026-10-31T06:00:00+05:30";
+const REGISTRATION_DEADLINE = "2026-10-31T23:59:00+05:30";
 const REGISTRATION_DEADLINE_MS = new Date(REGISTRATION_DEADLINE).getTime();
 
 // True once the deadline passes; flips automatically without a page reload
@@ -133,7 +133,7 @@ const CountdownTimer = ({ targetDate }) => {
             </div>
             <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/40 text-amber-700 dark:text-amber-300 px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider animate-pulse">
                 <AlertTriangle size={14} className="shrink-0" />
-                <span>Registration ends 31 Oct, 6:00 AM IST. Officially closes after this.</span>
+                <span>Registration ends 31 Oct, 11:59 PM IST. Officially closes after this.</span>
             </div>
         </div>
     );
@@ -242,7 +242,7 @@ const TechnovisionNov2026 = () => {
                 "Participation Certificates for all attendees"
             ],
             timeline: [
-                { time: "31 Oct 2026, 6 AM IST", event: "Registration Deadline" },
+                { time: "31 Oct 2026, 11:59 PM IST", event: "Registration Deadline" },
                 { time: "02 Nov 2026 (10 AM - 5 PM)", event: "Event Date & Time" },
                 { time: "216 Classroom", event: "Location" }
             ]
@@ -269,7 +269,7 @@ const TechnovisionNov2026 = () => {
                 "Participation Certificates for all teams"
             ],
             timeline: [
-                { time: "31 Oct 2026, 6 AM IST", event: "Registration Deadline" },
+                { time: "31 Oct 2026, 11:59 PM IST", event: "Registration Deadline" },
                 { time: "03 Nov 2026 (10 AM - 2 PM)", event: "Event Date & Time" },
                 { time: "IT Garden", event: "Location" }
             ]
@@ -298,7 +298,7 @@ const TechnovisionNov2026 = () => {
                 "Participation Certificates for all builders"
             ],
             timeline: [
-                { time: "31 Oct 2026, 6 AM IST", event: "Registration Deadline" },
+                { time: "31 Oct 2026, 11:59 PM IST", event: "Registration Deadline" },
                 { time: "02 Nov 2026 (2:30 PM - 5 PM)", event: "Event Date & Time" },
                 { time: "IT Garden", event: "Location" }
             ]
@@ -412,7 +412,7 @@ const TechnovisionNov2026 = () => {
 💡 Working Model Presentation
 🏆 Trophies, Goodies & Direct Certificates for All!
 
-Register your team now before slots close (Deadline: 31 Oct, 6 AM IST):
+Register your team now before slots close (Deadline: 31 Oct, 11:59 PM IST):
 ${window.location.href}`;
         window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
     };
@@ -1039,7 +1039,7 @@ ${window.location.href}`;
                                 Registration Closed
                             </h2>
                             <p className="text-xs sm:text-sm text-red-900 dark:text-red-100 font-medium">
-                                Registration officially closed on 31 Oct 2026, 6:00 AM IST. Thank you for your interest in Technovision '26.
+                                Registration officially closed on 31 Oct 2026, 11:59 PM IST. Thank you for your interest in Technovision '26.
                             </p>
                         </div>
                     ) : (
