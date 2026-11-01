@@ -105,7 +105,7 @@ const ProjectCard = memo(({ project }) => {
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-black py-2.5 md:py-3 rounded-xl font-bold text-[10px] uppercase transition-colors"
             >
-              <Globe size={12} /> <span>Report</span>
+              <Globe size={12} /> <span>{project.reportLabel || 'Report'}</span>
             </a>
           ) : (
             <button

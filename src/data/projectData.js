@@ -8,6 +8,10 @@ import ctfImg from '../assets/projects/ctf.png';
 import fluxMailImg from '../assets/projects/bulk-mail.png';
 import auctionImg from '../assets/projects/auction.png'; // Add your Auction asset here
 import moodwaveImg from '../assets/projects/moodwave.svg';
+import robowalkImg from '../assets/projects/robowalk.png';
+import roborumbleImg from '../assets/projects/robo-rumble.png';
+import roboWalkPage from '../pages/robo-walk.html?url';
+import roboRumblePage from '../pages/robo-rumble.html?url';
 
 const PROJECT_DATA = [
   {
@@ -84,6 +88,26 @@ const PROJECT_DATA = [
     popularity: 89,
     report: "/projects/music_recommendation.pdf",
     live: "https://music-1-8f4y.onrender.com"
+  },
+  {
+    title: "ROBO Walk - A walking Bot without wheels.",
+    description: "A Robot that moves without any wheels. it has legs that make it moveable.",
+    img: robowalkImg,
+    tech: ["Gear Motor", "legs", "controller"],
+    date: "2026-11-03",
+    popularity: 89,
+    reportLabel: "Open",
+    report: roboWalkPage
+  },
+  {
+    title: "RoboRumble - clash the bots.",
+    description: "Robots come to arena and make adventures.",
+    img: roborumbleImg,
+    tech: ["Arduino", "ESP-32", "Gear motors","controllers"],
+    date: "2026-11-03",
+    popularity: 89,
+    reportLabel: "Open",
+    report: roboRumblePage
   }
 ];
 
