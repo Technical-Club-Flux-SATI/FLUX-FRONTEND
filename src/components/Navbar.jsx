@@ -66,9 +66,11 @@ const Navbar = () => {
     if (savedTheme === 'dark') {
       setIsDark(true);
       document.documentElement.classList.add('dark');
+      document.documentElement.dataset.theme = 'dark';
     } else {
       setIsDark(false);
       document.documentElement.classList.remove('dark');
+      document.documentElement.dataset.theme = 'light';
       localStorage.setItem('theme', 'light');
     }
   }, []);
@@ -77,6 +79,7 @@ const Navbar = () => {
     const newDark = !isDark;
     setIsDark(newDark);
     document.documentElement.classList.toggle('dark', newDark);
+    document.documentElement.dataset.theme = newDark ? 'dark' : 'light';
     localStorage.setItem('theme', newDark ? 'dark' : 'light');
   };
 

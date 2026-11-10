@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const ScrollToTop = () => {
+const ScrollToTop = ({ showButton = true }) => {
   const { pathname, search, hash } = useLocation();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -66,7 +66,7 @@ const ScrollToTop = () => {
     });
   };
 
-  if (!isVisible) return null;
+  if (!showButton || !isVisible) return null;
 
   return (
     <button
