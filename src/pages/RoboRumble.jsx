@@ -2408,51 +2408,51 @@ export default function RoboRumble() {
                 <h2 id="procedure-title">Making procedure</h2>
               </div>
               <p className="mono" style={{ margin: "0 0 20px 52px", color: "#7d858d", fontSize: "11px" }}>
-                VISUAL REFERENCES / SCHEMATIC ILLUSTRATIONS
+                STEP-BY-STEP BUILD PHOTOS
               </p>
               <div className="procedure" aria-label="Step-by-step making procedure">
                 <article className="step surface">
                   <div className="step-copy">
                     <span className="step-number">STEP_01</span>
-                    <h3>Robot Planning and Component Procurement</h3>
-                    <p>Plan the robot's design and identify and gather all the required components, including the ESP board, motors, battery, battery holder/casing, and other necessary parts.</p>
+                    <h3>Bot Planning and Component Procurement</h3>
+                    <p>Plan the bot's design and identify and gather all the required components, including the ESP board, motors, battery, battery holder/casing, and other necessary parts.</p>
                   </div>
                   <figure className="step-visual step-visual-compact">
-                    <img src="/projects/robo-rumble/blueprint.png" alt="Blueprint drawing of a robot for the planning stage" />
-                    <figcaption>Robot blueprint / planning reference</figcaption>
+                    <img src="/projects/robo-rumble/roborumble-step1.png" alt="Robo Rumble Step 1: bot planning and component procurement" />
+                    <figcaption>Step 1 / Bot planning and component procurement</figcaption>
                   </figure>
                 </article>
                 <article className="step surface">
                   <div className="step-copy">
                     <span className="step-number">STEP_02</span>
                     <h3>Step 2: Chassis Design and Preparation</h3>
-                    <p>Shape and modify the scrap materials to form the robot's chassis, ensuring the structure is ready for the assembly process.</p>
+                    <p>Shape and modify the scrap materials to form the bot's chassis, ensuring the structure is ready for the assembly process.</p>
                   </div>
                   <figure className="step-visual">
-                    <img src="/projects/robo-rumble/shaping.png" alt="Robot frame and chassis reference" />
-                    <figcaption>Robot chassis / preparation reference</figcaption>
+                    <img src="/projects/robo-rumble/roborumble-step2.png" alt="Robo Rumble Step 2: chassis design and preparation" />
+                    <figcaption>Step 2 / Chassis design and preparation</figcaption>
                   </figure>
                 </article>
                 <article className="step surface">
                   <div className="step-copy">
                     <span className="step-number">STEP_03</span>
-                    <h3>Step 3: Robot Assembly</h3>
+                    <h3>Step 3: Bot Assembly</h3>
                     <p>Assemble the chassis by mounting the motors, ESP board, battery, and other components in their respective positions.</p>
                   </div>
                   <figure className="step-visual">
-                    <img src="/projects/robo-rumble/aseemble.png" alt="Assembled walking robot with its motors and electronic components mounted to the chassis" />
-                    <figcaption>Robot chassis / assembly reference</figcaption>
+                    <img src="/projects/robo-rumble/step3.png" alt="Robo Rumble Step 3: bot assembly" />
+                    <figcaption>Step 3 / Bot assembly</figcaption>
                   </figure>
                 </article>
                 <article className="step surface">
                   <div className="step-copy">
                     <span className="step-number">STEP_04</span>
                     <h3>Step 4: Testing and Tuning</h3>
-                    <p>Test the robot's functionality, identify any issues, and fine-tune its components to ensure smooth and reliable operation.</p>
+                    <p>Test the bot's functionality, identify any issues, and fine-tune its components to ensure smooth and reliable operation.</p>
                   </div>
                   <figure className="step-visual">
-                    <img src="/projects/robo-rumble/fixing.png" alt="A student testing and adjusting a robot" />
-                    <figcaption>Robot testing / tuning reference</figcaption>
+                    <img src="/projects/robo-rumble/step4.png" alt="Robo Rumble Step 4: testing and tuning" />
+                    <figcaption>Step 4 / Testing and tuning</figcaption>
                   </figure>
                 </article>
               </div>
