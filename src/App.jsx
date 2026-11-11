@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux"; // Import useSelector to sync with Auth state
 import { Toaster } from "react-hot-toast";
 
@@ -33,6 +33,8 @@ const TechnovisionNovAdminPortal = React.lazy(() => import("./pages/Technovision
 const FluxWave2_0 = React.lazy(() => import("./pages/FluxWave2_0"));
 const FluxRecruitment = React.lazy(() => import("./pages/Recruitment_26"));
 const FluxWavePublicAdmin = React.lazy(() => import("./pages/FluxWavePublicAdmin"));
+const RoboWalk = React.lazy(() => import("./pages/RoboWalk"));
+const RoboRumble = React.lazy(() => import("./pages/RoboRumble"));
 
 // const Recruitment_26_Registration = React.lazy(() => import("./pages/Recruitment_26_Registration"));
 const RecruitmentAdminPortal = React.lazy(() => import("./pages/RecruitmentAdminPortal"));
@@ -76,10 +78,19 @@ const AdminRoute = ({ children }) => {
 export default function App() {
   return (
     <Router>
+      <AppLayout />
+    </Router>
+  );
+}
 
-      <div className="bg-white dark:bg-[#050505] text-zinc-900 dark:text-white min-h-screen flex flex-col transition-colors duration-300">
-        <ScrollToTop />
-        <Navbar />
+function AppLayout() {
+  const { pathname } = useLocation();
+  const isRoboProject = pathname === "/projects/robo-walk" || pathname === "/projects/robo-rumble";
+
+  return (
+    <div className="bg-white dark:bg-[#050505] text-zinc-900 dark:text-white min-h-screen flex flex-col transition-colors duration-300">
+      <ScrollToTop showButton={!isRoboProject} />
+      {!isRoboProject && <Navbar />}
 
         {/* Global toast notifications — call toast.success()/toast.error() anywhere */}
         <Toaster
@@ -121,6 +132,8 @@ export default function App() {
               <Route path="/events" element={<FluxEvent />} />
               <Route path="/team" element={<OurTeam />} />
               <Route path="/projects" element={<FluxProjects />} />
+              <Route path="/projects/robo-walk" element={<RoboWalk />} />
+              <Route path="/projects/robo-rumble" element={<RoboRumble />} />
               <Route path="/gallery" element={<FluxGallery />} />
               <Route path="/skills" element={<FluxSkills />} />
               <Route path="/contact" element={<FluxContact />} />
@@ -181,11 +194,10 @@ export default function App() {
           </React.Suspense>
         </main>
 
-        <FluxFooter />
+      {!isRoboProject && <FluxFooter />}
         <React.Suspense fallback={null}>
           <VercelAnalytics />
         </React.Suspense>
-      </div>
-    </Router>
+    </div>
   );
 }

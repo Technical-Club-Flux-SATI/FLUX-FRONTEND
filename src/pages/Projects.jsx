@@ -2,6 +2,7 @@ import React, { useState, useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Layers, Cpu, Shield, Wind, Brain, Radio, Microscope, User, Send, Plus, Globe, Loader2, Search, Filter, ChevronDown } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 import API from '../api';
 import { PROJECTS_DATA } from '../data/projectData';
 
@@ -99,14 +100,23 @@ const ProjectCard = memo(({ project }) => {
 
         <div className="flex gap-2 mt-auto">
           {project.report ? (
-            <a
-              href={project.report}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-black py-2.5 md:py-3 rounded-xl font-bold text-[10px] uppercase transition-colors"
-            >
-              <Globe size={12} /> <span>Report</span>
-            </a>
+            project.reportIsRoute ? (
+              <Link
+                to={project.report}
+                className="flex-1 flex items-center justify-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-black py-2.5 md:py-3 rounded-xl font-bold text-[10px] uppercase transition-colors"
+              >
+                <Globe size={12} /> <span>{project.reportLabel || 'Report'}</span>
+              </Link>
+            ) : (
+              <a
+                href={project.report}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-black py-2.5 md:py-3 rounded-xl font-bold text-[10px] uppercase transition-colors"
+              >
+                <Globe size={12} /> <span>{project.reportLabel || 'Report'}</span>
+              </a>
+            )
           ) : (
             <button
               onClick={() => toast.error("Report not available for this project")}
