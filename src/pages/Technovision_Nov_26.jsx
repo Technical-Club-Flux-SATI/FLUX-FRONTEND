@@ -242,7 +242,7 @@ const TechnovisionNov2026 = () => {
                 "Participation Certificates for all attendees"
             ],
             timeline: [
-                { time: "31 Oct 2026, 11:59 PM IST", event: "Registration Deadline" },
+                { time: "31 Oct 2026, 11:59 PM IST", event: "Registration Closed" },
                 { time: "02 Nov 2026 (10 AM - 5 PM)", event: "Event Date & Time" },
                 { time: "216 Classroom", event: "Location" }
             ]
@@ -257,7 +257,7 @@ const TechnovisionNov2026 = () => {
             pdfLink: roboPdf,
             description: "Custom robots take on hurdles, rugged terrain, and knockout matches in a combat arena.",
             highlight: "Weight cap: 1.5 kg. Max voltage: 12V.",
-            notice: "All bots must be completed by 30 October. A screening round will be held on 31 October. Only 15 shortlisted teams will be selected for Robo Rumble.",
+            notice: "All bots were to be completed by 30 October. A screening round was held on 31 October. Only 15 shortlisted teams were selected for Robo Rumble.",
             rules: [
                 "Bot weight must not exceed 1.5 kg.",
                 "Bot must fit within 20 x 20 x 20 cm at match start.",
@@ -269,7 +269,7 @@ const TechnovisionNov2026 = () => {
                 "Participation Certificates for all teams"
             ],
             timeline: [
-                { time: "31 Oct 2026, 11:59 PM IST", event: "Registration Deadline" },
+                { time: "31 Oct 2026, 11:59 PM IST", event: "Registration Closed" },
                 { time: "03 Nov 2026 (10 AM - 2 PM)", event: "Event Date & Time" },
                 { time: "IT Garden", event: "Location" }
             ]
@@ -285,7 +285,7 @@ const TechnovisionNov2026 = () => {
             pdfLink: walkingBotPdf,
             description: "Obstacle sprint for custom robots built strictly without wheels, using legged linkages or crawlers.",
             highlight: "🛑 No wheels allowed. Legged linkages, inchworms & crawlers only.",
-            notice: "All bots must be completed by 30 October. A screening round will be held on 31 October. Only 15 shortlisted teams will be selected for Walking Bot.",
+            notice: "All bots were to be completed by 30 October. A screening round was held on 31 October. Only 15 shortlisted teams were selected for Walking Bot.",
             rules: [
                 "NO wheels or circular rolling elements for movement.",
                 "Allowed: Theo Jansen/Klann linkages, walkers, inchworms, crawlers, sliding linkages.",
@@ -298,7 +298,7 @@ const TechnovisionNov2026 = () => {
                 "Participation Certificates for all builders"
             ],
             timeline: [
-                { time: "31 Oct 2026, 11:59 PM IST", event: "Registration Deadline" },
+                { time: "31 Oct 2026, 11:59 PM IST", event: "Registration Closed" },
                 { time: "02 Nov 2026 (2:30 PM - 5 PM)", event: "Event Date & Time" },
                 { time: "IT Garden", event: "Location" }
             ]
@@ -406,7 +406,15 @@ const TechnovisionNov2026 = () => {
 
     // Social Share Handler
     const handleShareWhatsApp = () => {
-        const text = `🔥 Technovision '26 is LIVE at SATI Vidisha!
+        const text = registrationClosed
+            ? `Technovision '26 at SATI Vidisha has concluded.
+⚔️ Robo Rumble Combat Arena
+🤖 Walking Bot (Strictly No Wheels)
+💡 Working Model Presentation
+
+Registration is closed. See the event page:
+${window.location.href}`
+            : `🔥 Technovision '26 is LIVE at SATI Vidisha!
 ⚔️ Robo Rumble Combat Arena
 🤖 Walking Bot (Strictly No Wheels)
 💡 Working Model Presentation
@@ -429,7 +437,9 @@ ${window.location.href}`;
             try {
                 await navigator.share({
                     title: "Technovision '26 | SATI Vidisha",
-                    text: "Join our team for Technovision '26! Robo Rumble, Walking Bot (No Wheels) & Model Presentation. Free registration for everyone.",
+                    text: registrationClosed
+                        ? "Technovision '26 has concluded. Robo Rumble, Walking Bot (No Wheels) & Model Presentation. Registration is closed."
+                        : "Join our team for Technovision '26! Robo Rumble, Walking Bot (No Wheels) & Model Presentation. Free registration for everyone.",
                     url: window.location.href,
                 });
             } catch (err) {
@@ -450,7 +460,7 @@ ${window.location.href}`;
 
             {/* ================= STICKY MOBILE REGISTER BAR ================= */}
             <AnimatePresence>
-                {showStickyBar && (
+                {showStickyBar && !registrationClosed && (
                     <motion.div
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
@@ -497,8 +507,8 @@ ${window.location.href}`;
                         animate={{ opacity: 1, y: 0 }}
                         className="flex flex-wrap items-center justify-center gap-2 mb-3 sm:mb-4 px-2"
                     >
-                        <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping" />
-                        <span className="text-emerald-600 dark:text-emerald-400 font-mono text-[10px] min-[360px]:text-xs sm:text-sm tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold text-center">
+                        <span className={`w-2.5 h-2.5 rounded-full ${registrationClosed ? 'bg-red-500' : 'bg-emerald-500 animate-ping'}`} />
+                        <span className={`${registrationClosed ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400'} font-mono text-[10px] min-[360px]:text-xs sm:text-sm tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold text-center`}>
                             {registrationClosed ? 'Registrations Closed' : 'Registrations Live Now • Open for All Colleges'}
                         </span>
                     </motion.div>
@@ -513,7 +523,7 @@ ${window.location.href}`;
                         >
                             <Calendar size={15} className="text-cyan-500" />
                             <span className="text-xs sm:text-sm font-bold uppercase tracking-wider">
-                                02 - 03 Nov 2026
+                                02 - 03 Nov 2026 (Concluded)
                             </span>
                             <span className="text-cyan-500/40 hidden sm:inline">|</span>
                             <a
@@ -539,7 +549,7 @@ ${window.location.href}`;
                         </motion.h1>
 
                         <p className="text-xs min-[360px]:text-sm sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto font-medium px-2">
-                            The flagship technical battleground returns. 3 arena competitions, non-wheeled robotics engineering, and game-changing technical prototypes.
+                            The flagship technical battleground has concluded. 3 arena competitions, non-wheeled robotics engineering, and game-changing technical prototypes.
                         </p>
 
                         {/* 3 Arena Quick-Jump Pills */}
@@ -565,9 +575,11 @@ ${window.location.href}`;
 
                         {/* Live Countdown Timer */}
                         <div className="pt-1 sm:pt-2">
-                            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-cyan-400/90 block mb-1">
-                                ⏳ Official Registration Closes In:
-                            </span>
+                            {!registrationClosed && (
+                                <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-cyan-400/90 block mb-1">
+                                    ⏳ Official Registration Closes In:
+                                </span>
+                            )}
                             <CountdownTimer targetDate={REGISTRATION_DEADLINE} />
                         </div>
 
@@ -608,12 +620,14 @@ ${window.location.href}`;
 
                         {/* Responsive Call to Action Buttons */}
                         <div className="grid grid-cols-2 sm:flex sm:flex-row sm:flex-wrap justify-center gap-2 sm:gap-3 pt-3 sm:pt-4 max-w-3xl mx-auto w-full px-1">
-                            <button
-                                onClick={() => scrollToRegistration()}
-                                className="col-span-2 sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-400 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-black uppercase tracking-wider hover:brightness-110 transition-all shadow-lg shadow-cyan-500/30 text-xs sm:text-sm min-h-[44px] sm:min-h-[48px]"
-                            >
-                                <Flame size={16} className="text-amber-300" /> Register Your Team Now
-                            </button>
+                            {!registrationClosed && (
+                                <button
+                                    onClick={() => scrollToRegistration()}
+                                    className="col-span-2 sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-400 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-black uppercase tracking-wider hover:brightness-110 transition-all shadow-lg shadow-cyan-500/30 text-xs sm:text-sm min-h-[44px] sm:min-h-[48px]"
+                                >
+                                    <Flame size={16} className="text-amber-300" /> Register Your Team Now
+                                </button>
+                            )}
 
                             <a
                                 href={WHATSAPP_GROUP_URL}
@@ -699,7 +713,7 @@ ${window.location.href}`;
                                 Clash of <span className="text-cyan-500 dark:text-cyan-400">Metal & Innovation</span>
                             </h2>
                             <p className="text-xs sm:text-base md:text-lg text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
-                                Technovision returns this November with three premier high-adrenaline competitions: <strong>Model Presentation</strong>, <strong>Robo Rumble Arena</strong>, and the all-new <strong>Walking Bot without Wheels</strong> challenge. Open to students across all engineering branches, years, and outside institutions to prototype, battle, and win glory.
+                                Technovision was held in November with three premier high-adrenaline competitions: <strong>Model Presentation</strong>, <strong>Robo Rumble Arena</strong>, and the all-new <strong>Walking Bot without Wheels</strong> challenge. It was open to students across all engineering branches, years, and outside institutions to prototype, battle, and win glory.
                             </p>
 
                             <div className="space-y-2.5 sm:space-y-3 pt-1 sm:pt-2">
@@ -888,12 +902,14 @@ ${window.location.href}`;
                                 </div>
 
                                 <div className="flex flex-row gap-2 sm:gap-3 w-full sm:w-auto">
-                                    <button
-                                        onClick={() => scrollToRegistration(currentEvent.id)}
-                                        className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-2 sm:px-6 leading-tight text-center py-3 sm:py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs transition-all shadow-lg shadow-cyan-500/25 min-h-[44px]"
-                                    >
-                                        Register For This Event <ArrowRight size={14} />
-                                    </button>
+                                    {!registrationClosed && (
+                                        <button
+                                            onClick={() => scrollToRegistration(currentEvent.id)}
+                                            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-2 sm:px-6 leading-tight text-center py-3 sm:py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs transition-all shadow-lg shadow-cyan-500/25 min-h-[44px]"
+                                        >
+                                            Register For This Event <ArrowRight size={14} />
+                                        </button>
+                                    )}
 
                                     {currentEvent.pdfLink ? (
                                         <a
@@ -1039,8 +1055,22 @@ ${window.location.href}`;
                                 Registration Closed
                             </h2>
                             <p className="text-xs sm:text-sm text-red-900 dark:text-red-100 font-medium">
-                                Registration officially closed on 31 Oct 2026, 11:59 PM IST. Thank you for your interest in Technovision '26.
+                                Registration officially closed on 31 Oct 2026, 11:59 PM IST. Technovision '26 was held on 02 - 03 Nov 2026 and has concluded. Thank you for your interest.
                             </p>
+                            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-3">
+                                <a
+                                    href="/gallery"
+                                    className="px-5 py-2.5 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-black font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-all"
+                                >
+                                    View Gallery
+                                </a>
+                                <a
+                                    href="/events"
+                                    className="px-5 py-2.5 rounded-xl border border-red-400 dark:border-red-500/50 text-red-700 dark:text-red-300 font-bold text-xs uppercase tracking-wider hover:bg-red-100 dark:hover:bg-red-950/50 transition-all"
+                                >
+                                    Explore Upcoming Events
+                                </a>
+                            </div>
                         </div>
                     ) : (
                         <TechnovisionNovRegistration

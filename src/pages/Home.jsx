@@ -38,8 +38,8 @@ const Home = () => {
       {/* FluxWave 2.0 Poster Popup - Disabled */}
       {/* <FluxWavePopup /> */}
 
-      {/* Technovision 2026 registration popup */}
-      <TechnovisionPopup />
+      {/* Technovision 2026 registration popup - Disabled */}
+      {/* <TechnovisionPopup /> */}
 
       {/* ===== INJECTED ANIMATIONS ===== */}
       <style dangerouslySetInnerHTML={{
